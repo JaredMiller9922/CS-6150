@@ -130,13 +130,22 @@ After that we simply need to decide which "slot" we want the heads to be in usin
 Suppose we have two coins, one of which is {\em fair} (i.e. prob[heads] = prob[tails] = $1/2$), and another of which is slightly biased. More specifically, the second coin has prob[heads] = 0.51. Suppose we toss the coins $N$ times, and let $H_1$ and $H_2$ be the number of heads observed (respectively).
 \begin{parts}
 \part[3] Intuitively, how large must $N$ be, so that we have $H_2 > H_1$ with ``reasonable certainty''?
+\textbf{This question depends on what we mean by "reasonable certainty". I think that a good start would be 10000 tosses. This might be overkill but I believe it will make the noise have less of an effect.}
 \part[2] Suppose we pick $N = 25$. What is the expected value of $H_2 - H_1$?
+\textbf{To solve this problem we first realize it can be setup as a bernoulli trial. We know that the expected value of a bernoulli trial is simply the probability of success. $E[X1] = 0.50$ and $E[X2] = 0.51$ for each trial. With this knowledge we can also calculate the probability after any number of trials.} 
+
+\textbf{$E[H_1] = x_1, x_2, ..., x_n$} = $N * p1$
+
+\textbf{$E[H_2] = x_1, x_2, ..., x_n$} = $N * p2$
+
+\textbf{We can then use linearity of expectation to calculate $E[h_2 - h_1] = (0.51 * 25) - (0.5 * 25) = 0.25$}
 \part[2] Can you use this to conclude that the probability of the event $(H_2 - H_1 \ge 1)$ is small? [It's OK if you cannot answer this part of the problem.] 
 \end{parts}
 
 
 \titledquestion{Array Sums}[8]
 Given an array $A[1 \dots n]$ of integers, find if there exist indices $i, j, k$ such that $A[i]+A[j]+A[k] = 0$.  Can you find an algorithm with running time $o(n^3)$? [NOTE: this is the little-oh notation, i.e., the algorithm should run in time $< cn^3$, for any constant $c$, as $n \rightarrow \infty$.] [{\em Hint:} aim for an algorithm with running time $O(n^2 \log n)$.]
+\textbf{We can't try every single tripple because that will give runtime $o(n^3)$ which is too slow from the problem definition. But if we sort the array first which takes O(nlog(n)) we can fix one number and see if any other two numbers sum to it which gives $O(n^2)$ runtime which is more than fast enough.}
 
 \end{questions}
 \end{document}
