@@ -57,9 +57,44 @@ Suppose $a, b$ are numbers that are both at most $n$. Give a bound on the runnin
 	\end{algorithmic}
 \end{algorithm}
 \end{parts}
+\textbf{Claim: The runtime of the algorithm in the worst case is O(log(n))}
+
+\textbf{Obsv: It is known that the worst case input for the euclidean algorithm is two fibonacci numbers follwed by one another such that $a > b$}
+
+\textbf{Obsv: When doing the modulo operation if your quotient is $1$ youo will have the most iterations out of any other quoteint. This is because when doing modulo the value returned is $r$ in the following equation: $a = q * b + r$ s.t. $0 \le r < b$. The value of $r$ is the largest when the value of $q$ is the smallest.}
+
+\textbf{Obsv: With the logic above it is easy to think that trying to find numbers with a quotient of $0$ would be ideal. This is the truth but in the euclidean algorithm you can only have this happen once because after it happens the values are swapped}
+
+\textbf{Obsv: The worst case of the algorithm happens when we are able to have a quoteint of $1$ at every single modulo operation. The only way we can do this is if we have both $a$ and $b$ be fibonacci numbers}
+
+\textbf{Obsv: The runtime of this worst case has to be $log(n)$. This is because when using fibonacci numbers you will always cut your number in half. This is inherint to how the fibonacci sequence works. The $f_(k-1)$ value always makes up more than half of the $f_k$ value. We are also told that both $a$ and $b$ are of size $N$}
+
+\textbf{Therefore: The runtime of the euclidean algorithm in the worst case is $O(log(n))$}
 
 \titledquestion{Square vs. Multiply}[5]
 Suppose I tell you that there is an algorithm that can square any $n$ digit number in time $O(n \log n)$, for all $n\ge 1$. Then, prove that there is an algorithm that can find the product of {\em any two} $n$ digit numbers in time $O(n \log n)$.  [{\em Hint:} think of using the squaring algorithm as a subroutine to find the product.]
+
+\textbf{Claim: The algorithm shown below can compute the product of any two n digit numbers in time O(nlog(n))}
+\begin{algorithm}[!h]
+	\caption{multiply$(a, b)$}
+	\begin{algorithmic}
+		\State result $= (a+b)^2 - (a-b)^2$;
+		\State return result $\div 4$;
+	\end{algorithmic}
+\end{algorithm}
+
+\textbf{Obsv: To show that our algorithm is correct all we have to do is expand the value of "result and work through the algebra}
+
+\begin{align*}
+(a+b)^2 = a^2 + 2ab - b^2 \\
+(a-b)^2 = a^2 - 2ab + b^2 \\
+(a+b)^2 - (a-b)^2 = 4ab\\
+4ab / 4 = ab
+\end{align*}
+
+\textbf{Obsv: Now that correctness has been proven we can look at the running time. We know that the addition and subtraction of two numbers is consant so this doesn't have any effect on our final run time. We were also given the runtime of our squaring algorithm as $O(n\log{n})$. We also know that because $4$ is a power of two we can do constant time division by simply shifting the bits.}
+
+\textbf{Therefore: Our final runtime of the algorithm can be expressed as $2n\log{n}$ which in big o notation would simply be $O(n\log{n})$}
 
 \titledquestion{Graph basics}[8]
 Let $G$ be a {\em simple}\footnote{I.e., there are no self loops or multiple edges between any pair of vertices.} undirected graph. Prove that there are at least two vertices that have the same degree. 
