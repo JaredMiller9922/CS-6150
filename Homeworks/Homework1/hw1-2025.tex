@@ -87,6 +87,16 @@ doc5 $\rightarrow$ ``Design new data structures''
 Create an inverted index data structure for this data.
 Now, you are given a query to search: [algorithm, data, structures, design]. Your goal is to find documents that contain all four words. Use your inverted index to find which document contains all four words.
 
+\textbf{To set this up you can use a dictionary that is keyed by a unique word. Each key would correspond to a list of all documents that word appears in. To accomplish this simply loop through all documents and add the document name to the corespdoning "wordlist" as you see them.}
+
+\texttt{\{data:       [doc1, doc2, doc4, doc5] \}} \\
+\texttt{\{structures: [doc1, doc4, doc5] \}} \\
+\texttt{\{help:       [doc1, doc4] \}} \\
+\texttt{\{algorithm:  [doc1, doc3, doc4] \}} \\
+\texttt{\{design:     [doc1, doc3, doc4, doc5] \}} \\
+\texttt{\{search:     [doc2, doc3, doc4] \}} \\
+\texttt{\{new:        [doc4, doc5] \}} \\
+
 \mysolution{
 \input{Sol-2a}
 }
@@ -95,11 +105,20 @@ Now, you are given a query to search: [algorithm, data, structures, design]. You
 When answering search queries using an inverted index, we saw that the key step is to take the intersection of the inverted index sets corresponding to the words in the query. Suppose that these sets are of size $s_1, s_2, \dots, s_t$ respectively (say we have $t$ words in the query). Na\"ively computing the intersection is not great if one of the $s_i$ is large (e.g., if one of the words in the query is a frequently-occurring one). Assume that the documents in each inverted index set are sorted (say by docID). Now, give an algorithm whose running time is
 \[ O\big( s (\log s_1 + \log s_2 + \dots + \log s_t) \big), \quad \text{where $s = \min_{1 \le i \le t}  s_i$.} \]
 
+\textbf{To get the desired runtime for a search query we use the following algorihtm:}
+\begin{enumerate}
+    \item \textbf{Assume all inverted index "wordsets" are sorted.}
+    \item \textbf{For each search query (string of words) look at each inverted index associated with that word. Call this set of "wordsets" $S$ Call the "wordset" with the shortest length "$s_i$"}
+    \item \textbf{Iteratively search through each element in the the "wordset" for $s_i$. For each element use binary search to search for that element in all other wordsets. Keep track of which element in the wordset $s_i$ has the highest number of occurences across all wordsets in $S$ and return that document.}
+\end{enumerate}
+
 \mysolution{
 \input{Sol-2b}
 }
 
 \part[4] Why is an inverted index more efficient than a normal index for querying documents that contain a given set of words. (e.g., Searching all web pages that includes words from a particluar google search query)?
+
+\textbf{Because the number of unique words is much smaller than the number of webpages that need to be searched. With inverted index there is defintely a preprocessing cost which comes from looping through every individual document and populating the ineverted index sets. But as we saw above the amount of time it takes to search is much smaller to long as the number of documents is smaller than $s_i$. We no longer have to loop through every single document for every search query.}
 
 \mysolution{
 \input{Sol-2c}

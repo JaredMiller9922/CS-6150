@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1757440624.83816 "c:/Users/jared/Desktop/School/Fall-2025/CS-6150/Homeworks/Homework1/hw1-2025.tex" "hw1-2025.pdf" "hw1-2025" 1757440625.79412 0
+["pdflatex"] 1757610001.79345 "c:/Users/jared/Desktop/School/Fall-2025/CS-6150/Homeworks/Homework1/hw1-2025.tex" "hw1-2025.pdf" "hw1-2025" 1757610002.80163 0
   "C:/Users/jared/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1757376594 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/jared/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1755796530 24225046 c3572a5ec32730164546d04f8b1a32fb ""
   "C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1233951848 1004 54797486969f23fa377b128694d548df ""
@@ -74,10 +74,10 @@
   "C:/Users/jared/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1704400941 30006 57b07afb710ee2f649c65cfbafda39c1 ""
   "C:/Users/jared/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/jared/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "c:/Users/jared/Desktop/School/Fall-2025/CS-6150/Homeworks/Homework1/hw1-2025.tex" 1757440623 14434 c481e269802fc2f3f4fe5caeac7d4945 ""
+  "c:/Users/jared/Desktop/School/Fall-2025/CS-6150/Homeworks/Homework1/hw1-2025.tex" 1757610001 16245 2eb32fb36225c77ede7c11e16bbc3711 ""
   "four_segs.png" 1757376529 108155 8e52367ad696995cdc28f182a93f2427 ""
-  "hw1-2025.aux" 1757440625 3662 56c3fa440f787acef3bc994329eb76e2 "pdflatex"
-  "hw1-2025.tex" 1757440623 14434 c481e269802fc2f3f4fe5caeac7d4945 ""
+  "hw1-2025.aux" 1757610002 3733 b57955734b4819f98db43984be1074d3 "pdflatex"
+  "hw1-2025.tex" 1757610001 16245 2eb32fb36225c77ede7c11e16bbc3711 ""
   "one_seg.png" 1757376529 127951 b5a0d25112fe61c518a0126f4cd5b8b4 ""
   "two_segs.png" 1757376529 200369 72e1569f0bb0b95bb7f3a9d3691adee5 ""
   (generated)
