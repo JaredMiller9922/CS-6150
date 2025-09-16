@@ -132,6 +132,10 @@ When answering search queries using an inverted index, we saw that the key step 
 \begin{parts} 
 \part[10] Let $A[0], A[1], \dots, A[n]$ be an integer array of size $n$, where $n>2$. We define array $A$ to be \emph{convex} if there exists an index \texttt{`$i$'} such that $A[0],A[1]\cdots A[i]$ is a decreasing sequence and $A[i],A[i+1]\cdots A[n]$ is an increasing sequence. The goal is to find such index \texttt{`$i$'} given a \emph{convex} array $A$. Give an algorithm for this task that makes only $O(\log n)$ queries to the array $A$. [{\em Interesting fact:} This algorithm can be used to find the minimum value of a \emph{convex} function without calculating the derivative.]
 
+\textbf{Because we know that the array is convex, we know that there exists a pivot point $i$. To find this pivot point we can use a binary search with slight modification. After we choose the center index we can check if the value directly to the right is greater than or less than the current value. If it is less than we know that our pivot point must be on the right so we can get rid of the left half of the array. If it is greater than, we know that our pivot point must be on the left so we can throw away the right. Just like binary search this has a runtime of $Olog(n)$}
+
+\textbf{At every step this algorithm cuts the array in half. No matter what branch of the recursion you go down you will only be querying the array $Olog(n)$ times. No matter how many branches we end up going down (from the recursion) each branch will only take $Olog(n)$ time. Each extra branch will be covered in the constant.}
+
 \mysolution{
 \input{Sol-3a}
 }
@@ -139,7 +143,7 @@ When answering search queries using an inverted index, we saw that the key step 
 \part[10] 
 ``Test pooling'' is a method used when testing for a disease is expensive
 or if tests have limited availability. The idea is as follows: suppose we have
-samples drawn from $n$ people (numbered $1, 2, \dots, n$ for convenience). Instead
+samples drawn from $n$ people (). Instead
 of testing each sample separately, samples from a subset $S$ of the people are
 combined and a single test is performed on the pooled sample. If at least one of the people in $S$ has the
 disease, the test comes out positive, and if none of the people in $S$ have the
