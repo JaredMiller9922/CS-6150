@@ -153,6 +153,9 @@ faster way to find out who has the disease, compared to testing everyone.
 Suppose you have samples from $n$ people, indexed $1, 2, \dots n$, and you are told
 that {\bf exactly four} of them have the disease. Give an algorithm that finds the indices of the persons with the disease using at most $O(\log n)$ (pooled) tests. Assume that you can draw as many samples from each person as you want.
 [\emph{Hint:} First think about solving the same question when {\bf exactly one} of them has the disease.]
+\textbf{To solve this problem we will use divide and conquer and recursion. At each step of the recursion we will start by cutting our list in half and checking both the left and right side for a positive case. If the left side has a positive case we will call our recursive method with the left side of the list as input. If the right side has a positive case we will call our recurisve method with the right side of the list as input. The base case of the recursion would be when the length of the input equals 1. At this point we would simply run our test a final time to decide if that index is infected. If it is we will add it to a global list.}
+
+\textbf{This approach would take $O(log(n))$ for each branch of the recursion. Beucase multiple different branches will just add a constant, the final runtime would be $O(log(n))$}
 
 \mysolution{
 \input{Sol-3b}
