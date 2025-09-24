@@ -166,14 +166,38 @@ that {\bf exactly four} of them have the disease. Give an algorithm that finds t
 Recall the linear time selection algorithm we saw in class (median-of-medians) and answer the following questions. {\underline{Please provide formal justification}}.
 \begin{parts}
 \part[8] Instead of dividing the array into groups of $5$, suppose we divided the array into groups of $11$. Now sorting each group is slower. But what would be the recurrence we obtain?  [{\em Hint:} What would the size of the sub-problems now be?]
+
+\textbf{Because I needed diagrams to show my work I have included some handwritten notes for my work.}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{4a.jpg}
+  \caption{The New Reccurence}
+\end{figure}
+
+\textbf{Solution: }
+\[
+T(N) \le c*n + T(\frac{8n}{11}) + T(\frac{n}{11})
+\]
+
 \mysolution{
 \input{Sol-4a}
 }
 \part[6] Analyze the runtime of your new recurrence. Is it still linear?
+
+\textbf{We can actually quickly see that this will still be linear by simply looking at the coeficients inside of our $T()$ portions of the function. $n\frac{8}{11} = 0.72n$ and $n\frac{1}{11} = 0.09n$. These don't add up to $1$ so we know its still linear. We can also formally solve the recurrence using the plug and chug method. Using this method we find that the amount of extra work we are doing at each level is $\frac{9}{11}^{n} * c$. This gives us a geometric series that can be simplified to $5.5cn$ which is still linear!. Detailed work of the plug and chug can be seen in the screenshot below.}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{4b.jpg}
+  \caption{Showing The Recurrence Is Linear}
+\end{figure}
+
 \mysolution{
     \input{Sol-4b}
 }
 \part[6] Say we defined ``almost median'' differently, and we ended up with a recurrence $T(n) = T(4n/5) + T(n/5) + n$. Does this still lead to a linear running time?
+\textbf{We can use the same lane of understanding that was used above. $n\frac{4n}{5} = 0.8n$ and $n\frac{n}{5} = 0.2n$ This means that at each step we are solving $n$ size problem. This ends up being $O(nlog(n))$ like mergesort}
 \mysolution{
 \input{Sol-4c}
 }
@@ -187,11 +211,22 @@ Note: when we write $n/2$, $n/3$, etc. (any smaller quantity expressed in terms 
 \begin{parts}
 \part[8] $T(n) = nT\left(\frac{n}{2}\right)$. Use $T(1) =1$ as the base case.
 
+\textbf{To solve this problem we will use the plug and chug method. The work can be seen in the screenshot below. Once we solve the reccurence we get the following runtime $O(n)$.}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{5a.png}
+  \caption{Solving Recurrence 5a}
+\end{figure}
+
 \mysolution{
 \input{Sol-5a}
 }
 
 \part[8] $T(n) = \sqrt{n} \cdot T\left(\sqrt{n}\right) + n$. Use $T(1)=5$ as the base case. [\textit{Caution: $T(1)$ may not be directly substitutable in the last step of iterative substitution.}]
+
+\textbf{We can also solve this using plug and chug. The work can be seen in the screenshot below. Once we solve the reccurence we get the following runtime $O()$.}
 
 \mysolution{
 \input{Sol-5b}
@@ -200,6 +235,18 @@ Note: when we write $n/2$, $n/3$, etc. (any smaller quantity expressed in terms 
 \part[4] Imagine an algorithm $B$ that works by halving the input size repeatedly (something like binary search where the input size for the next step of the problem is half of the previous input size, and \textbf{the other half is discarded}). However, \textbf{unlike binary search} which splits the input down the middle in constant time, $B$ needs to determine a custom split by reading each element and deciding whether to put it in the first half or the second. This takes linear time, but still divides the input in two equal halves. [E.g. input: $\{a,b,c,d,e,f\}$, after split: $\{a,c,f\}, \{b,d,e\}$] Then, $B$ picks one of the halves, discards the other, and continues to do so until it reaches an input size of $1$, which it solves in constant time.\\
 i. Formulate a recurrence relation for this algorithm. [\textit{Use constants like $c_1, c_2, \dots$ if/when needed.}]\\
 ii. Solve the recurrence relation to determine a big-O bound on $B$.
+
+\textbf{To come up with the recurrence we will use the standard formula}
+
+\textbf{"Number of Subproblems" $*$ "Size of each Subproblem" $*$ "Cost to Divide / Combine}
+
+\textbf{We only have 1 subproblem at each step. Each subproblem is of size $(T\frac{1}{2})$. The cost to divide and combine is simply the cost to divide which was given to be linear. Using this information and following the work in the image below we can see that the big-O bound is $O(n)$}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{5c.jpg}
+  \caption{Solving Recurrence 5c}
+\end{figure}
 
 \mysolution{
 \input{Sol-5c}
@@ -244,23 +291,48 @@ Considering these constraints and using \textit{line\_fit} as a subroutine, answ
 \begin{parts}
 \part[4] Write the cost optimization equation for this problem in terms of $n$, $W$, $C$, and \textit{line\_fit}. [\textit{Hint: The cost of offshoots in each segment is $C$ $\times$ the sum of distances returned by} line\_fit \textit{for that segment. The length of the segment itself does not matter.}]
 
+\textbf{Uppercase S is the number of segments}
+
+\textbf{Lowercase $s\_i$ is the set of the houses in the current segment}
+
+$\displaystyle \operatorname*{argmin}_{S,W,C}\sum_{i=0}^{S}(W + C * \text{line\_fit}(s_i))$
+
 \mysolution{
 \input{Sol-6a}
 }
 
 \part[10] Design a dynamic programming algorithm that takes the co-ordinates of the reservoir and $n$ houses as input, and returns the minimum \textbf{cost} of the pipeline.
 
+\textbf{The algorihtm I designed can be seen in the screenshot below.}
+
+\textbf{Note: I use a simple array as my lookup table and index into that lookup table using the index of the current house we are looking at.}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\linewidth]{water_pipeline_alg.png}
+    \caption{Algorithm For Finding the Minimum Cost Pipeline}
+    \label{fig:water_pipeline}
+\end{figure}
 \mysolution{
 \input{Sol-6b}
 }
 
 \part[4] Analyze the running time of the algorithm (treat the oracle as constant-time).
 
+\textbf{To analyze the runtime we realize that every single subproblem will only need to be sovled once. So if we can find out how many subproblems there are total and how long each one takes we will have our runtime.}
+
+\textbf{The number of subproblems is exactly equal to the number of nodes in the problem (the number of houses + the reservoir)}
+
+\textbf{At each step of the recursion we compute the cost if we connected the rest of the nodes with a single segment and the cost if we created a segment and continued on the recursion. Both of these things happen for every node $O(n)$ times overall. Because we can assume our oracle is constant the final runtime is O(n)}
+
 \mysolution{
 \input{Sol-6c}
 }
 
 \part[2] Comment on the benefit of using dynamic programming to solve this problem.
+\textbf{Dyanmic programming is often useful for problems where we need to try every possibility and have multiple recursive branches. We notice above that a huge part of us being able to get the runtime specified is because we know that we only have to solve every subproblem once. If we hadn't done that every single branch would have to resolve the subproblem.}
+
+\textbf{From this it is obvious to see that dynamic programming can offer huge benefits if we are sovling the same problem mutliple times.}
 
 \mysolution{
 \input{Sol-6d}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.8.21)  18 SEP 2025 11:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.8.21)  24 SEP 2025 16:07
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -387,27 +387,51 @@ Underfull \hbox (badness 10000) in paragraph at lines 92--99
  []
 
 [2] [3]
-<one_seg.png, id=23, 1497.595pt x 758.835pt>
+<4a.jpg, id=23, 1305.87875pt x 1646.15pt>
+File: 4a.jpg Graphic file (type jpg)
+<use 4a.jpg>
+Package pdftex.def Info: 4a.jpg  used on input line 174.
+(pdftex.def)             Requested size: 350.33727pt x 441.60297pt.
+ [4 <./4a.jpg>]
+<4b.jpg, id=27, 1412.27625pt x 1503.6175pt>
+File: 4b.jpg Graphic file (type jpg)
+<use 4b.jpg>
+Package pdftex.def Info: 4b.jpg  used on input line 192.
+(pdftex.def)             Requested size: 350.33727pt x 372.98965pt.
+<5a.png, id=28, 2368.85pt x 1646.15pt>
+File: 5a.png Graphic file (type png)
+<use 5a.png>
+Package pdftex.def Info: 5a.png  used on input line 219.
+(pdftex.def)             Requested size: 350.33727pt x 243.44553pt.
+ [5 <./4b.jpg>]
+<5c.jpg, id=32, 1589.94pt x 1179.40625pt>
+File: 5c.jpg Graphic file (type jpg)
+<use 5c.jpg>
+Package pdftex.def Info: 5c.jpg  used on input line 247.
+(pdftex.def)             Requested size: 350.33727pt x 259.86609pt.
+ [6 <./5a.png>]
+<one_seg.png, id=36, 1497.595pt x 758.835pt>
 File: one_seg.png Graphic file (type png)
 <use one_seg.png>
-Package pdftex.def Info: one_seg.png  used on input line 220.
+Package pdftex.def Info: one_seg.png  used on input line 267.
 (pdftex.def)             Requested size: 202.69325pt x 102.70462pt.
-<four_segs.png, id=25, 1333.98375pt x 697.60625pt>
+<four_segs.png, id=38, 1333.98375pt x 697.60625pt>
 File: four_segs.png Graphic file (type png)
 <use four_segs.png>
-Package pdftex.def Info: four_segs.png  used on input line 226.
+Package pdftex.def Info: four_segs.png  used on input line 273.
 (pdftex.def)             Requested size: 202.69325pt x 105.99892pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[4]
-<two_segs.png, id=29, 1925.1925pt x 1037.8775pt>
+ [7 <./5c.jpg> <./one_seg.png> <./four_segs.png>]
+<two_segs.png, id=45, 1925.1925pt x 1037.8775pt>
 File: two_segs.png Graphic file (type png)
 <use two_segs.png>
-Package pdftex.def Info: two_segs.png  used on input line 236.
+Package pdftex.def Info: two_segs.png  used on input line 283.
 (pdftex.def)             Requested size: 200.19054pt x 107.91138pt.
- [5 <./one_seg.png> <./four_segs.png> <./two_segs.png>]
+<water_pipeline_alg.png, id=46, 1534.23187pt x 370.38374pt>
+File: water_pipeline_alg.png Graphic file (type png)
+<use water_pipeline_alg.png>
+Package pdftex.def Info: water_pipeline_alg.png  used on input line 312.
+(pdftex.def)             Requested size: 400.38872pt x 96.6592pt.
+ [8 <./two_segs.png> <./water_pipeline_alg.png>] [9]
 This exam contains 6 questions with 19 parts, 0 subparts, and 0 subsubparts.
 This exam has a total of 110 points.
 This exam has a total of 0 bonus points.
@@ -422,17 +446,17 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 6030 strings out of 474486
- 90948 string characters out of 5743755
- 1942542 words of memory out of 5000000
- 28254 multiletter control sequences out of 15000+600000
- 565534 words of font info for 66 fonts, out of 8000000 for 9000
+ 6082 strings out of 474486
+ 91739 string characters out of 5743755
+ 1941542 words of memory out of 5000000
+ 28304 multiletter control sequences out of 15000+600000
+ 566153 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,11n,71p,1204b,446s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,11n,71p,1204b,473s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/jared/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on hw1-2025.pdf (5 pages, 464033 bytes).
+Output written on hw1-2025.pdf (9 pages, 1737310 bytes).
 PDF statistics:
- 85 PDF objects out of 1000 (max. 8388607)
+ 105 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
