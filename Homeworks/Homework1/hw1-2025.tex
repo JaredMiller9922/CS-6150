@@ -56,14 +56,14 @@ Prefix trees can be used as a ``poor man's binary search tree''. Let us see the 
 }
 \part[2] How long is the query time and insertion time in this trie? (Assume the integer is already converted to base $2^d$.)
 
-\textbf{Both the insertion time and the query time will have the same runtime. In all cases this runtime is directly related to the number of characters in the largest string in your "alphabet". This would also be $o(\frac{k}/{d})$}
+\textbf{Both the insertion time and the query time will have the same runtime. In all cases this runtime is directly related to the number of characters in the largest string in your "alphabet". This would also be $o(\frac{k}{d})$}
 \mysolution{
 \input{Sol-1c}
 }
 
 \part[4] If we decide to store $N$ integers (from the same range) in a sorted array instead of the prefix tree, how is the query time affected by this choice of data structures?
 
-\textbf{In this case because it is a sorted array we can use binary serach to get a runtime of $o(log(n))$}
+\textbf{In this case because it is a sorted array we can use binary serach to get a runtime of $O(log_2(N))$. }
 
 \mysolution{
 \input{Sol-1d}
@@ -97,6 +97,7 @@ Now, you are given a query to search: [algorithm, data, structures, design]. You
 \texttt{\{search:     [doc2, doc3, doc4] \}} \\
 \texttt{\{new:        [doc4, doc5] \}} \\
 
+\textbf{Doc 1 and Doc 4 contain all four words}
 \mysolution{
 \input{Sol-2a}
 }
@@ -118,15 +119,13 @@ When answering search queries using an inverted index, we saw that the key step 
 
 \part[4] Why is an inverted index more efficient than a normal index for querying documents that contain a given set of words. (e.g., Searching all web pages that includes words from a particluar google search query)?
 
-\textbf{Because the number of unique words is much smaller than the number of webpages that need to be searched. With inverted index there is defintely a preprocessing cost which comes from looping through every individual document and populating the ineverted index sets. But as we saw above the amount of time it takes to search is much smaller to long as the number of documents is smaller than $s_i$. We no longer have to loop through every single document for every search query.}
+\textbf{Because the number of unique words is much smaller than the number of webpages that need to be searched. With inverted index there is defintely a preprocessing cost which comes from looping through every individual document and populating the ineverted index sets. But as we saw above the amount of time it takes to search is much smaller so long as the number of documents is smaller than $s_i$. We no longer have to loop through every single document for every search query.}
 
 \mysolution{
 \input{Sol-2c}
 }
 
 \end{parts}
-
-
 
 \titledquestion{Divide and conquer}
 \begin{parts} 
@@ -135,6 +134,8 @@ When answering search queries using an inverted index, we saw that the key step 
 \textbf{Because we know that the array is convex, we know that there exists a pivot point $i$. To find this pivot point we can use a binary search with slight modification. After we choose the center index we can check if the value directly to the right is greater than or less than the current value. If it is less than we know that our pivot point must be on the right so we can get rid of the left half of the array. If it is greater than, we know that our pivot point must be on the left so we can throw away the right. Just like binary search this has a runtime of $Olog(n)$}
 
 \textbf{At every step this algorithm cuts the array in half. No matter what branch of the recursion you go down you will only be querying the array $Olog(n)$ times. No matter how many branches we end up going down (from the recursion) each branch will only take $Olog(n)$ time. Each extra branch will be covered in the constant.}
+
+\textbf{When we cut the array in half don't forget to include the index you compared the right side with.}
 
 \mysolution{
 \input{Sol-3a}
@@ -153,6 +154,7 @@ faster way to find out who has the disease, compared to testing everyone.
 Suppose you have samples from $n$ people, indexed $1, 2, \dots n$, and you are told
 that {\bf exactly four} of them have the disease. Give an algorithm that finds the indices of the persons with the disease using at most $O(\log n)$ (pooled) tests. Assume that you can draw as many samples from each person as you want.
 [\emph{Hint:} First think about solving the same question when {\bf exactly one} of them has the disease.]
+
 \textbf{To solve this problem we will use divide and conquer and recursion. At each step of the recursion we will start by cutting our list in half and checking both the left and right side for a positive case. If the left side has a positive case we will call our recursive method with the left side of the list as input. If the right side has a positive case we will call our recurisve method with the right side of the list as input. The base case of the recursion would be when the length of the input equals 1. At this point we would simply run our test a final time to decide if that index is infected. If it is we will add it to a global list.}
 
 \textbf{This approach would take $O(log(n))$ for each branch of the recursion. Beucase multiple different branches will just add a constant, the final runtime would be $O(log(n))$}
@@ -167,37 +169,47 @@ Recall the linear time selection algorithm we saw in class (median-of-medians) a
 \begin{parts}
 \part[8] Instead of dividing the array into groups of $5$, suppose we divided the array into groups of $11$. Now sorting each group is slower. But what would be the recurrence we obtain?  [{\em Hint:} What would the size of the sub-problems now be?]
 
-\textbf{Because I needed diagrams to show my work I have included some handwritten notes for my work.}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\linewidth]{4a.jpg}
-  \caption{The New Reccurence}
-\end{figure}
+\textbf{Using the techniques discussed in class the first step is to prove that the median of medians is truly a median. We ensure this by making sure it is in between some fraction of the other elements. We can also use the techniques discussed in class to count how many of the elements get removed at each step. Because I had to use diagrms in my work I have attached hand written notes below}
 
 \textbf{Solution: }
 \[
 T(N) \le c*n + T(\frac{8n}{11}) + T(\frac{n}{11})
 \]
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.53\linewidth]{4a.jpg}
+  \caption{The New Reccurence}
+\end{figure}
+
 \mysolution{
 \input{Sol-4a}
 }
 \part[6] Analyze the runtime of your new recurrence. Is it still linear?
 
-\textbf{We can actually quickly see that this will still be linear by simply looking at the coeficients inside of our $T()$ portions of the function. $n\frac{8}{11} = 0.72n$ and $n\frac{1}{11} = 0.09n$. These don't add up to $1$ so we know its still linear. We can also formally solve the recurrence using the plug and chug method. Using this method we find that the amount of extra work we are doing at each level is $\frac{9}{11}^{n} * c$. This gives us a geometric series that can be simplified to $5.5cn$ which is still linear!. Detailed work of the plug and chug can be seen in the screenshot below.}
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.7\linewidth]{4b.jpg}
-  \caption{Showing The Recurrence Is Linear}
-\end{figure}
-
+\textbf{This problem can be sovled using the Akra Bazzi formula}
+\begin{align}
+a_1=a_2=1, k=2, b1=\frac{8}{11}, b_2=\frac{1}{11} \\
+\frac{8}{11}^p + \frac{1}{11}^p = 1 \\
+p=0.6815 \\ 
+T(n)=O(n^p(1+\int_{1}^{n}\frac{u}{u^{p+1}}du)) = O(n^{0.6815}(1+\int_{1}^{n}u^{-0.6815}du)) \\
+T(n) = O(n^{0.6815}(1+\frac{n^{0.3185 - 1}}{0.3185})) = O(\frac{1}{c} * n^{0.6815} * n^{0.3185}) \\
+T(n) = O(n)
+\end{align}
 \mysolution{
     \input{Sol-4b}
 }
 \part[6] Say we defined ``almost median'' differently, and we ended up with a recurrence $T(n) = T(4n/5) + T(n/5) + n$. Does this still lead to a linear running time?
-\textbf{We can use the same lane of understanding that was used above. $n\frac{4n}{5} = 0.8n$ and $n\frac{n}{5} = 0.2n$ This means that at each step we are solving $n$ size problem. This ends up being $O(nlog(n))$ like mergesort}
+
+\textbf{The formal way to go about it is using the akra bazi theorem. The first step is to solve for p}
+\begin{align}
+a_1=a_2=1, k=2, b1=\frac{4}{5}, b_2=\frac{1}{5} \\
+p=1 \\
+\frac{4}{5}^p + \frac{1}{5}^p = 1 \\
+T(n)=O(n^p(1+\int_{1}^{n}\frac{u}{u^{p+1}}du)) = O(n(1+\int_{1}^{n}\frac{u}{u^2}du)) \\
+T(n) = O(n(1+\ln(n))) = O(nlog(n))
+\end{align}
+
 \mysolution{
 \input{Sol-4c}
 }
@@ -211,7 +223,20 @@ Note: when we write $n/2$, $n/3$, etc. (any smaller quantity expressed in terms 
 \begin{parts}
 \part[8] $T(n) = nT\left(\frac{n}{2}\right)$. Use $T(1) =1$ as the base case.
 
-\textbf{To solve this problem we will use the plug and chug method. The work can be seen in the screenshot below. Once we solve the reccurence we get the following runtime $O(n)$.}
+\textbf{To solve this problem we will use the plug and chug method.}
+
+\begin{align}
+T(n) = n T(\frac{n}{2}) \\
+T(n) = n * \frac{n}{2} * T(\frac{n}{2^2}) \\ 
+T(n) = n * \frac{n}{2} * \frac{n}{2^2}* T(\frac{n}{2^3}) \\
+T(n) = n (1 + \frac{1}{2} + \frac{1}{4}) * T(\frac{n}{2^i}) \\
+\frac{n}{2^i} = 1 \\
+\log_{2}{n} = i \\
+T(n) = 2n * T(1) = 2n \\
+O(n)
+\end{align}
+
+\textbf{More work can be seen in the screenshot below. Once we solve the reccurence we get the following runtime $O(n)$.}
 
 
 \begin{figure}[H]
@@ -226,7 +251,27 @@ Note: when we write $n/2$, $n/3$, etc. (any smaller quantity expressed in terms 
 
 \part[8] $T(n) = \sqrt{n} \cdot T\left(\sqrt{n}\right) + n$. Use $T(1)=5$ as the base case. [\textit{Caution: $T(1)$ may not be directly substitutable in the last step of iterative substitution.}]
 
-\textbf{We can also solve this using plug and chug. The work can be seen in the screenshot below. Once we solve the reccurence we get the following runtime $O()$.}
+\textbf{We can also solve this using plug and chug. The work can be seen in the screenshot below. Once we solve the reccurence we get the following runtime $O(nlog(log(n)))$.}
+
+\textbf{It is helpful to remember that $\sqrt{x} = x^{\frac{1}{2}}$}
+\textbf{It is also important to see that the base case can't be used directly. We can use $sqrt(2) = 1.41$ becuase it bounds the base case}
+
+\begin{align}
+T(n) = n^{\frac{1}{2}}T(n^{\frac{1}{2}}) + n, T(1) = 5 \\ 
+T(n) = n^{\frac{3}{4}}T(n^{\frac{1}{4}}) + n + n \\ 
+T(n) = n^{\frac{7}{8}}T(n^{\frac{1}{8}}) + n + n + n \\
+T(n) = n^{\frac{2^{i-1}}{2^i}} * T(n^{\frac{1}{2^i}}) + i*n \\
+i = \log_{2}{\log_{2}{n}} \\
+T(n) = n^{(1-\frac{1}{log(n)})} + \log_{2}({\log_{2}{(n)}}) * n \\
+T(n) = \frac{5}{2} + \log_{2}({\log_{2}{(n)}}) * n \\
+T(n) = O(\log_{2}({\log_{2}{(n)}}) * n)
+\end{align}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.7\linewidth]{5b.jpg}
+  \caption{Solving Recurrence 5b}
+\end{figure}
 
 \mysolution{
 \input{Sol-5b}
@@ -236,11 +281,25 @@ Note: when we write $n/2$, $n/3$, etc. (any smaller quantity expressed in terms 
 i. Formulate a recurrence relation for this algorithm. [\textit{Use constants like $c_1, c_2, \dots$ if/when needed.}]\\
 ii. Solve the recurrence relation to determine a big-O bound on $B$.
 
-\textbf{To come up with the recurrence we will use the standard formula}
+\textbf{(i) To come up with the recurrence we will use the standard formula:}
 
-\textbf{"Number of Subproblems" $*$ "Size of each Subproblem" $*$ "Cost to Divide / Combine}
+\textbf{Number of Subproblems $*$ Size of each Subproblem $*$ Cost to Divide / Combine}
 
-\textbf{We only have 1 subproblem at each step. Each subproblem is of size $(T\frac{1}{2})$. The cost to divide and combine is simply the cost to divide which was given to be linear. Using this information and following the work in the image below we can see that the big-O bound is $O(n)$}
+\textbf{We only have 1 subproblem at each step. Each subproblem is of size $(T\frac{1}{2})$. The cost to divide and combine is simply the cost to divide which was given to be linear. Therefore our solution is}
+\[
+T(n) = T(\frac{n}{2}) + c_1n, T(1) = 1
+\]
+
+\textbf{(ii) Using this information and following the work in the image below we can see that the big-O bound is $O(n)$}
+\begin{align}
+T(n) = T(\frac{n}{2}) + c1n, T(1) = 1 \\ 
+T(n) = T(\frac{n}{4}) + c1n + c1(\frac{n}{2}) \\ 
+T(n) = T(\frac{n}{8}) + c1n + c1(\frac{n}{2}) + c1(\frac{n}{4}) \\
+T(n) = T(\frac{n}{8}) + nci(1+\frac{1}{2}+\frac{1}{4}+ ...) \\ 
+T(n) = T(\frac{n}{2i} + 2nci) \\ 
+i = \log_{2}{n} \\
+O(n)
+\end{align}
 
 \begin{figure}[H]
   \centering
@@ -260,7 +319,7 @@ Imagine a village with a few houses that need a new water pipeline. We know the 
 
 We have an oracle (magic procedure) called \textit{`line\_fit'} that takes a set of points (co-ordinates), performs linear regression (line fitting) on it, and returns the sum of distances of all points from the line of best fit. We do not care how this oracle works, but use it to determine how to lay the pipeline. However, we realize that if we lay a single long, straight segment of pipe using \textit{line\_fit}, the sum of distances of all the houses from the pipeline is large, and necessitates long `offshoots' for every house (see $d_0, d_1, \dots, d_7$ in figure \ref{fig:one_seg}). The lengths of offshoots can be reduced by using more pipe segments joined together instead of a single long segment. E.g. in figure \ref{fig:four_segs}, there are 4 segments and the sum of distances $d_0$ through $d_7$ is much smaller. But, to lay the pipeline like this, we need to weld the pipe segments to form a continuous pipeline.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \setlength{\belowcaptionskip}{-10pt}
     \centering
     \begin{minipage}{0.45\textwidth}
@@ -278,7 +337,7 @@ We have an oracle (magic procedure) called \textit{`line\_fit'} that takes a set
 \vspace{0.1\textheight}
 We are now faced with the following problem. The government is only funding the pipe segments (irrespective of their lengths). We need to bear the cost of welding the segments and of the `offshoots' for each house. The cost of welding is $W$ dollars \textbf{per segment}, and the cost of offshoots is $C$ dollars \textbf{per unit length} (remember that \textit{line\_fit} returns the total length of all offshoots). We need to minimize the cost of the project (welding + offshoots). If we have too few segments, we need longer offshoots for the houses, thus driving up the cost. If we have too many segments (e.g. one segment serving each house), you need shorter branches but more welded joints, which can again be costlier. In theory, the number of such arrangements we need to consider is huge (non-polynomial in $n$). We can imagine that there is a certain number of segments that gives us the best trade-off between welding and offshoots, and minimizes the total cost. E.g. figure \ref{fig:two_segs} uses only two segments and the offshoots are not as long as in figure \ref{fig:one_seg}.
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.4\linewidth]{two_segs.png}
     \caption{Two segments, not too long offshoots}
@@ -295,42 +354,62 @@ Considering these constraints and using \textit{line\_fit} as a subroutine, answ
 
 \textbf{Lowercase $s\_i$ is the set of the houses in the current segment}
 
-$\displaystyle \operatorname*{argmin}_{S,W,C}\sum_{i=0}^{S}(W + C * \text{line\_fit}(s_i))$
-
+$OPT(0,n) = \displaystyle \operatorname*{min}_{0 \leq i \leq n} W + C * line\_fit(0, i) + OPT(i+1, n)$
 \mysolution{
 \input{Sol-6a}
 }
 
 \part[10] Design a dynamic programming algorithm that takes the co-ordinates of the reservoir and $n$ houses as input, and returns the minimum \textbf{cost} of the pipeline.
 
-\textbf{The algorihtm I designed can be seen in the screenshot below.}
+\textbf{a: seg\_start}
 
-\textbf{Note: I use a simple array as my lookup table and index into that lookup table using the index of the current house we are looking at.}
+\textbf{We are using an array costs[] for our lookup table that is size $n$. All values in the lookup table are initialized to $\inf$ at the start of the algorihtm.}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.8\linewidth]{water_pipeline_alg.png}
-    \caption{Algorithm For Finding the Minimum Cost Pipeline}
-    \label{fig:water_pipeline}
-\end{figure}
-\mysolution{
-\input{Sol-6b}
-}
+\begin{algorithm}
+\caption{$OPT(a)$}\label{alg:cap}
+\begin{algorithmic}
+\State {$costs =[]$} \Comment{All values initialized to $+\inf$}
+\If{$a == n$}
+  \State \Return $0$
+\EndIf
+\If{$costs[a] \ne \inf$}
+  \State \Return {$costs[a]$}
+\EndIf
+\For{$a \le i \le n$}
+  \State {$costs[a] = \min(costs[a], (W + C * line\_fit(a, i) + OPT(i+1, n)))$}
+\EndFor
 
+\State \Return {$costs[a]$}
+
+
+
+\end{algorithmic}
+\end{algorithm}
 \part[4] Analyze the running time of the algorithm (treat the oracle as constant-time).
 
 \textbf{To analyze the runtime we realize that every single subproblem will only need to be sovled once. So if we can find out how many subproblems there are total and how long each one takes we will have our runtime.}
 
 \textbf{The number of subproblems is exactly equal to the number of nodes in the problem (the number of houses + the reservoir)}
 
-\textbf{At each step of the recursion we compute the cost if we connected the rest of the nodes with a single segment and the cost if we created a segment and continued on the recursion. Both of these things happen for every node $O(n)$ times overall. Because we can assume our oracle is constant the final runtime is O(n)}
+\textbf{When we are at the bottom of recursion where the base case happens no lookups must be made. When we are at the problem one level above that exactly one lookup must be made. When we are two levels above we have two lookups. We also have to compute the minimum of all values looked up. If you follow this pattern clear up to the start of your lookup table you get the following relationship. (Note: c is the time it takes to find the minimum over all lookup values being compared)}
+
+\[
+nc + (n-1)c + (n-2)c + ... = \frac{c*n(n+1)}{2}
+\]
+
+\textbf{Removing constants and doing big o analysis we get the following}
+
+\[
+O(n^2)
+\]
 
 \mysolution{
 \input{Sol-6c}
 }
 
 \part[2] Comment on the benefit of using dynamic programming to solve this problem.
-\textbf{Dyanmic programming is often useful for problems where we need to try every possibility and have multiple recursive branches. We notice above that a huge part of us being able to get the runtime specified is because we know that we only have to solve every subproblem once. If we hadn't done that every single branch would have to resolve the subproblem.}
+
+\textbf{Dyanmic programming is often useful for problems where we need to try every possibility and have multiple recursive branches. We notice above that a huge part of us being able to get the runtime specified is because we know that we only have to solve every subproblem once. If we hadn't done that every single branch would have to resolve the subproblem. This would take factorial in the length of the input for every single problem. This means it is at least as bad as $n!$ but is actually higher than that.} 
 
 \textbf{From this it is obvious to see that dynamic programming can offer huge benefits if we are sovling the same problem mutliple times.}
 

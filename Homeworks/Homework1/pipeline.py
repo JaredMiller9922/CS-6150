@@ -8,12 +8,7 @@ def get_min_cost(nodes):
         return 0 
     if min_costs[nodes[0]] == float("inf"):
         for i in range(len(nodes)):
-            # Option 1: Current segment goes from nodes[0] -> nodes[i] and continues the recursion
-            # Option 2: Current segment goes from nodes[0] -> nodes[n]
-            # Option 3: Have we found a better starting segment
-            min_costs[nodes[0]] = min(c * line_fit(nodes[0:i]) + w + get_min_cost(nodes[i + 1:len(nodes) - 1]), 
-                                      c * line_fit(nodes[0]:len(nodes) - 1),
-                                      min_costs[nodes[0]])
+            min_costs[nodes[0]] = min(c * line_fit(nodes[0:i]) + w + get_min_cost(nodes[i + 1:len(nodes)]))
         else:
             return min_costs[nodes[0]]
 
