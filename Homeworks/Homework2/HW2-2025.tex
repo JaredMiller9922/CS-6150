@@ -52,7 +52,26 @@ that a locally optimal solution produced this way has a value that is at least t
 each iteration is now more expensive ($O(n^3)$ instead of $O(n^2)$), but the
 approximation ratio is better.]\\
 
+\textbf{To start this proof assume we begin with a locally optimum solution. This means that no swaps of three pairs will result in a higher happiness score. To demonstrate the relationship that comes from this assume we have 4 kids $i,j,k,l,m$ the correspodning gifts for those 3 kids are $a,b,c,d,e$. Our goal here is to compare the locally optimum solution to the global. When comparing our solutions let $j$ be the child that receives $a$'s optimal gift, $k$ be the child that receives $j$'s optimal gift, $d$ be the child that recieves $c$'s optimal gift, and finaly let $e$ be the child that receives $m$'s optimal gift. Using this information we can get innequalities that will allow us to compare our two solutions.}
 
+\textbf{$V_{i,a} + V_{j,b} + V_{k,c} \ge V_{i,b} + V_{j,c} + V_{k,a}$ With our current problem structure we don't have any information on the happiness of $V_{k,a}$ so we will simply consider the worst case where the happiness received from the mapping of $V_{j,a}$ is $0$. Another thing to remember here is that $i$'s optimal gift is $b$ and $j$'s optimal gift is c}
+
+\textbf{Using the same logic we can do the next level of the innequalities which would result in $V_{j,b} + V_{k,c} + V_{l,d} \ge V_{j,c} + V_{k,d} + V_{l,b} \rightarrow V_{j,b} + V_{k,c} + V_{l,d} \ge V_{j,c} + V_{k,d}$}
+
+\textbf{To make the pattern clear we will go one more level. $V_{k,c} + V_{l,d} + V_{m,e} \ge V_{k,d} + V_{l,e}$. Once again we consider the worst case for the last gift.}
+
+\textbf{Putting all of these innequalities together show us the pattern that will allow us to finish our proof}
+\begin{align}
+    V_{i,a} + V_{j,b} + V_{k,c} \ge V_{i,b} + V_{j,c} \\
+    V_{j,b} + V_{k,c} + V_{l,d} \ge V_{j,c} + V_{k,d} \\ 
+    V_{k,c} + V_{l,d} + V_{m,e} \ge V_{k,d} + V_{l,e}
+\end{align}
+
+\textbf{From this we can see that each edge in the locally optimum solution appears $3$ times and each edge in the globally optimum solution appears $2$ times. This pattern will continue for all children gift pairs so long as they are setup as above. A simplified expression for what this means is shown below}
+
+\textbf{$3*L \ge 2*G$. Where $L$ is all of the edges in the locally optimal solution and $G$ is all of the solutions in the globally optimal solution. If we simplify this expression we get that $L \ge \frac{2}{3} G$}
+
+\textbf{Therefore we have proven that a locally optimal solution produced this way has a value that is at least two-thirds the optimum value.}
 \mysolution{
     \input{Sol-1}
 }
@@ -101,6 +120,8 @@ In class, we saw the set cover problem (phrased as picking the smallest set of p
 
 \part[6] Consider the following ``street surveillance'' problem. We have a graph $(V, E)$ with $n$ nodes and $m$ edges. We are allowed to place surveillance cameras at the nodes. Once placed, they can monitor all the edges incident to the node. The goal is to place as few cameras as possible, so as to monitor {\bf all the edges} in the graph. Show how to cast the street surveillance problem as Set Cover.
 
+\textbf{Instead of thinking of uncovered skills think of the edges as unsurveiled streets. Instead of getting the minimum number of people that cover all skills, we want to setup the minimum number of cameras such that each street is surveiled. Each node contains a subset of the unsurveiled streets (whichever edges are incident to that node.) With this problem setup we can use the exact same greedy logic as set coverage. Like set cover this solution won't be optimal.}
+
 \mysolution{
 \input{Sol-3b}
 }
@@ -140,6 +161,22 @@ Here is Kruskal's greedy algorithm to find a minimum spanning tree of a weighted
 \end{algorithmic}
 
 Prove that, even though the for-loop at line 4 runs over all edges of $G$, \textsc{Kruskal} adds exactly $n-1$ edges to $T$. [Hint: \textit{Think about the number of disconnected components in $T$.}]
+\textbf{To start this proof we can use the given hint. Before the for loop has executed all vertices have been added to our graph. When this happens there are exactly $n$ disconnected components in our graph (One for each vertice).}
+
+\textbf{When the first edge is added we connect two of the disconnected components. This leaves us with exactly $n-1$ diconnected components}
+
+\textbf{For every edge after the first edge there are two cases. Case 1: We add an edge that comes from a vertice in a connected component and goes to a vertice outside of that connected component. In this case we are left with $n-2$ disconnected components. (You have one less disconnected component from the last step). Case 2: We add an edge with vertices that aren't in any connected components. In this case we also are left with $n-2$ disconnected components. Once we add an edge between 2 disconnected components they become 1 connected component.}
+
+\textbf{That pattern continues as we iterate. From the pseudocode we can figure out what our stopping conditon would be. The algorithm loops through all edges and adds the edge if it doesn't result in a cycle. Because we know that our graph began connected we can gaurantee that the end result will also be connected. By definition of a tree we know that our final result will contain a single connected component and no disconnected components. Using what was proved in the paragraph above shows that we will add $n-1$ edges (each time we add an edge we are reducing the number of disconnected components by 1 and we reach termination when all disconnected components are connected). $n,n-1,n-2,...,1$}
+
+\textbf{Because the problem asks us to show it is exaactly $n-1$ edges we will show by contradiction why $n-2$ egdges or $n$ edges isn't a valid solution}
+
+\textbf{For $n-2$ the contradiction is easy. Assume that we have added $n-2$ edges. This means by definition that we have exactly $2$ disconnected components. When we finish. This fact can not be true because the for loop adds all edges that do not contain a cycle. This means that there must exist and edge between the $2$ connected components that can be added that wouldn't result in a cycle.}
+
+\textbf{For $n$ the contradiction is also easy. Assume that we have added $n$ edges. This means by definition that we have added an edge after we only had a single connected component. This is a contradiciton because any edge added after we have a single connected component must result in a cycle (we already have a path to every other edge) by the pigeonhole principle.}
+
+\textbf{We have therefor proven that even though the for-loop at line 4 runs over all edges of $G$ KRUSKAL adds exactly $n-1$ edges to T}
+
 \mysolution{
 \input{Sol-4a}
 }
@@ -156,6 +193,42 @@ You can spend a maximum of 7 hours each day driving. After traveling \textbf{at 
 
 It is okay if you do not include a formal proof of correctness. Please give: i) a brief description of your problem-solving approach, ii) the pseudocode, and iii) analysis of the running time. 
 
+\textbf{(i): When I was coming up with an algorithm I realized that we would start by check if $d$ was reachable from $h$ in $\le 7 \text{ steps}$. If it wasn't our only other option would be to visit a hotel. From this hotel we would check if d was reachable in $\le 7 \text{ steps}$. If it was not I would have to use another hotel.}
+
+\textbf{Using this understanding we can create a reachability graph where $n = \{H,h,d\} $ and $m = \text{(u,v)}$ is an edge if there exists a path from $u \text{ to } v$. Once this reachability graph is created we can run BFS to find the minimum number of stops in our reachability graph or DFS if we just want to check if a path exists}
+
+\textbf{(ii): Note - This algorithm assumes that the number of hotels + source + dest is smaller than the number of nodes in the graph. If every node is either the source, dest, or a hotel this algorithm is no longer polynomial.}
+
+\textbf{Note - This algorithm also assumes that there is a subroutine $\text{Djikstras}(start, end)$ that returns true if there is a path from start to end that has a path cost of $\le 7$. This subroutine is implemented exactly as Djikstras was in class but it doesn't add any edge weights to the connected component that have a cummulative cost higher than 7}
+
+\textbf{Note - This algorithm assumes there is a subroutine $\text{BFS}(\text{nodes, edges, start, end})$ that returns true if there exists a path in the graph $G=(nodes, edges)$ between start and end and returns false otherwise. This algorithm is implemented exactly how we saw BFS implemented in class}
+
+\begin{algorithm}
+\caption{TripPlanning$(h,d,G,H)$}\label{alg:cap}
+\begin{algorithmic}[1]
+\State $H \gets \{H,h,d\}$ \Comment{Add source and destination to H}
+\State $N\_r \gets H$ \Comment{Nodes of reachability graph}
+\State $M\_r \gets \{\}$ \Comment{Edges of reachability graph} 
+\For{every node $N$ in $N\_r$}
+\State{Call Djikstras(N, X) where X is every other node in H}
+\If{path exists between H and x}
+\State{Add edge $(N,X)$ to $M_r$}
+\EndIf
+\EndFor \\
+\Return{$\text{BFS}(N\_r, M\_r, h, d)$}
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{(iii): }
+
+\textbf{Lines 1-3 are constant}
+
+\textbf{The for loop on lines 4-9 take $O(N^2 * logn(m+n))$  where N is the number of hotels + source + destination. The $N^2$ comes from the fact that we have to try all distinct pairs of the values in $N$. The other terms besides the $N$ simply come from the algorithm of Djikstras discussed in class.}
+
+\textbf{Line 10 takes $O(N\_r + M\_r)$ using the usual BFS algorihtm implemented in class}
+
+\textbf{This analysis shows clearly that the overall runtime of the algoirhtm is polynomial like expected.}
+
 \mysolution{
 \input{Sol-5}
 }
@@ -170,6 +243,13 @@ Let $A$ denote the {\em adjacency matrix} of the graph, i.e., an $n \times n$ ma
 \begin{parts}
 \part[10] Prove that for any two vertices $i,j$, their distance in the graph $d(i,j)$ is the smallest $k\ge 0$ such that $A^k (i,j) > 0$.\\
 
+
+\textbf{Claim: For any two vertices $i,j$ their distance in the graph $d(i,j)$ is the smallest $k \ge 0$ such that $A^k(i,j) > 0$. This claim is stating that the first $k_th$ matrix where $i,j$ is zero represents the distance between the two vertices $i,$}
+
+\textbf{To solve this problem it is important to understand what each $A^k$ represents. When $k=1$ $A^k$ represents the connections that are one "hop" away from each node or directly connected by an edge. When we increment $k$ to $k+1 = 2$ $A^k$ represents the connections that are $2$ hops away. This is a known fact in graph theory for unweighted and undirected grpahs.}
+\textcolor{red}{Show an example of the idea of number of hops}
+
+\textbf{Using this fact we can easily see that the path with the smallest number of hops represents the shortest path. To find the smallest number of hops we can simply check which value of $k$ yields a value $> 0$. The first time this shows up represents the smallest number of hops between $(i,j)$ which also yields the smallest distance.}
 \mysolution{
 \input{Sol-6a}
 }

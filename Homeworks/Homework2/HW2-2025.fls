@@ -124,6 +124,8 @@ INPUT .\hotels.png
 INPUT .\hotels.png
 INPUT .\hotels.png
 INPUT .\hotels.png
+INPUT C:\Users\jared\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx7.tfm
+INPUT C:\Users\jared\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx5.tfm
 INPUT HW2-2025.aux
 INPUT C:\Users\jared\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx10.pfb
 INPUT C:\Users\jared\AppData\Local\Programs\MiKTeX\fonts\type1\public\amsfonts\cm\cmbx10.pfb
