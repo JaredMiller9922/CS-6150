@@ -87,19 +87,40 @@ A common heuristic for this problem is local search. Start with some subset of t
 \begin{parts}
 \part[5]  Use local optimality to argue that:
 \[ d(x_1, q_2) + d(x_1, q_3) + \dots + d(x_1, q_t) \le d(q_1, q_2) + d(q_1, q_3) + \dots + d(q_1, q_t). \]
+
+\textbf{Because we know that our solution is a local optimum this innequality shows that the choice that we made for the first element of the list $q1$ must be $\le$ the choice that was made for the optimal $x1$. Swapping $q1$ for $x1$ here won't provide a better solution otherwise we would have swapped. Therefore the optimal must be $le$ the choice that we made (Remembering that we are trying to maximize the distance)}
 \mysolution{
 \input{Sol-2a}
 }
 
 \part[8] Deduce that:  [{\em Hint:} Use two inequalities of the form above.]
 \[ (t-1) \cdot d(x_1, x_2) \le 2 \left[ d(q_1, q_2) + d(q_1, q_3) + \dots + d(q_1, q_t) \right]. \]
+\textbf{The first thing to notice here is the term $d(x1,x2)$. With our current equations we don't really have any information on the distances between the optimal. Because of this we need to use a fact that is true for all Euclidean distances. We will use the triangle innequality.}
+\[d(x_1,x_2) \le d(x_1, q_j) + d(q_j, x_2)\]
+\textbf{When we are doing our distances comparisons we compare the point with every other point than itself so we can generalize this to all points}
+\[(t-1)d(x_1,x_2) \le \sum_{j=2}^td(x_1, q_j) + \sum_{j=2}^td(q_j, x_2)\]
+\textbf{We can now introduce the information we learned from (a) to reason about those two sums}
+\[\sum_{j=2}^td(x_1, q_j) \le \sum_{j=2}^td(q_1, q_j)\]
+\[\sum_{j=2}^td(x_2, q_j) \le \sum_{j=2}^td(q_1, q_j)\]
+\textbf{Simply plugging in those new innequalities we get the innequality asked for. We are okay to plug these in because we know they are strictly greater than so we don't ruin the innequality at the top}
+\[ (t-1) \cdot d(x_1, x_2) \le 2 \left[ d(q_1, q_2) + d(q_1, q_3) + \dots + d(q_1, q_t) \right]. \]
+\setcounter{equation}{0}
 \mysolution{
 \input{Sol-2b}
 }
 
 \part[10] Use this expression to argue that 
 \[ \sum_{i,j} d(x_i, x_j) \le 2 \sum_{i,j} d(q_i, q_j).\]
-Note: this shows that the local optimum has an objective value at least $\nicefrac{1}{2}$ the global optimum.
+\textbf{The argument for (b) can be applied to all pairs of points in the optimum}
+Note: this shows that the local optimum has an objective value at least $\nicefrac{1}{2o
+}$ the global optimum.
+\textbf{The main idea is to generalize what we got in (b) to all terms. All of the arguments from a and b can be applied to all values in the optimal solution}
+\[(t-1)\sum_{i,j}d(x_i,x_j) \le 2 * (t-1)\sum_{i,j}d(q_i,q_j)\]
+\textbf{The value of (t-1) is just a constant so it can be factored out of each element of the sum. We also realize that each term is counted twice on the right hand using the two equations from (a). We know that there are $t-1$ terms and each of those terms are counted twice which is where the extra $(t-1)$ comes from on the left hand side.} 
+\[ d(x_1, q_2) + d(x_1, q_3) + \dots + d(x_1, q_t) \le d(q_1, q_2) + d(q_1, q_3) + \dots + d(q_1, q_t). \]
+\[ d(x_2, q_2) + d(x_2, q_3) + \dots + d(x_2, q_t) \le d(q_2, q_1) + d(q_2, q_3) + \dots + d(q_2, q_t). \]
+\textbf{Simplify by removing the $(t-1)$ from both sides to get the answer}
+\[ \sum_{i,j} d(x_i, x_j) \le 2 \sum_{i,j} d(q_i, q_j).\]
 \mysolution{
 \input{Sol-2c}
 }
@@ -112,7 +133,19 @@ In class, we saw the set cover problem (phrased as picking the smallest set of p
 
 \textbf{In class we proved the following theorem}
 
-\textbf{Suppose there is an optimum solution that uses $k$ people. Then the greddy algorihtm does not use more than $k\log_{e}{m}$ people}
+\textbf{Suppose there is an optimum solution that uses $k$ people. Then the greddy algorihtm does not use more than $k\log_{e}{m}$ people. This argument came from the fact that at every step the number of uncovered skills followed this innequality}
+\[u_{t+1} \le u_t - \frac{u_t}{k}\]
+\textbf{Follwoing this innequality through all steps we get the following}
+\[u_{t+1} \le u_0(1-\frac{1}{k})^{t+1}\]
+\textbf{We know the value of $k=7$}
+\[u_{t+1} \le u_0(\frac{6}{7})^{t+1}\]
+\textbf{We know that we want to cover $75\%$ of the skills so that means when we are done we only want $25\%$ of the skills to be uncovered.}
+\[u_{t} \le m(\frac{6}{7})^{t} \le 0.25m\]
+\[u_{t} \le (\frac{6}{7})^{t} \le 0.25\]
+\textbf{Simply solve for t}
+\[(\frac{6}{7})^{t} \le 0.25\]
+\[t \le \frac{\log(0.25)}{\log(\frac{6}{7})} \approx 8.99 \]
+\textbf{Because we add a new person at each iteration we know that you must add $9$ people to to cover at least $75\%$ of the skills}
 
 \mysolution{
 \input{Sol-3a}
@@ -120,7 +153,7 @@ In class, we saw the set cover problem (phrased as picking the smallest set of p
 
 \part[6] Consider the following ``street surveillance'' problem. We have a graph $(V, E)$ with $n$ nodes and $m$ edges. We are allowed to place surveillance cameras at the nodes. Once placed, they can monitor all the edges incident to the node. The goal is to place as few cameras as possible, so as to monitor {\bf all the edges} in the graph. Show how to cast the street surveillance problem as Set Cover.
 
-\textbf{Instead of thinking of uncovered skills think of the edges as unsurveiled streets. Instead of getting the minimum number of people that cover all skills, we want to setup the minimum number of cameras such that each street is surveiled. Each node contains a subset of the unsurveiled streets (whichever edges are incident to that node.) With this problem setup we can use the exact same greedy logic as set coverage. Like set cover this solution won't be optimal.}
+\textbf{Instead of thinking of uncovered skills think of the edges as unsurveiled streets. Instead of getting the minimum number of people that cover all skills, we want to setup the minimum number of cameras such that each street is surveiled. Each node contains a subset of the unsurveiled streets (whichever edges are incident to that node.) With this problem setup we can use the exact same greedy logic as set coverage. Like set cover this solution won't be optimal but will still have the same bound $t=k\log_e(n)$}
 
 \mysolution{
 \input{Sol-3b}
@@ -139,6 +172,8 @@ Clearly (due to the while loop), the algorithm returns a set $S$ that monitors a
 
 {\em Hint.} Consider the edges $\{i,j\}$ encountered when we run the algorithm. Could it be that the optimal set chooses {\em neither} of $\{i,j\}$?
 
+\textbf{To solve this problem we will exploit the hint. Assume we have an optimal set of vertices $S$ and an "lazy" set of vertices $k$. By the problem definition the algorithm must monitor all edges. This means that it would be impossible for the optimal set of vertices to not choose either of the vertices ${i,j}$. If we assume the absolute worst case each part of our unoptimal solution must cover at least 1 part of the optimal. If we apply this reasoning to all nodes we get that in the worst case}
+\[|S| \le 2k\]
 \mysolution{
 \input{Sol-3c}
 }
@@ -246,8 +281,22 @@ Let $A$ denote the {\em adjacency matrix} of the graph, i.e., an $n \times n$ ma
 
 \textbf{Claim: For any two vertices $i,j$ their distance in the graph $d(i,j)$ is the smallest $k \ge 0$ such that $A^k(i,j) > 0$. This claim is stating that the first $k_th$ matrix where $i,j$ is zero represents the distance between the two vertices $i,$}
 
-\textbf{To solve this problem it is important to understand what each $A^k$ represents. When $k=1$ $A^k$ represents the connections that are one "hop" away from each node or directly connected by an edge. When we increment $k$ to $k+1 = 2$ $A^k$ represents the connections that are $2$ hops away. This is a known fact in graph theory for unweighted and undirected grpahs.}
-\textcolor{red}{Show an example of the idea of number of hops}
+\textbf{To solve this problem it is important to understand what each $A^k$ represents. When $k=1$ $A^k$ represents the connections that are one "hop" away from each node or directly connected by an edge. When we increment $k$ to $k+1 = 2$ $A^k$ represents the connections that are $2$ hops away. This is a known fact in graph theory for unweighted and undirected graphs and an example can be seen below}
+\[
+A_1 = 
+\begin{bmatrix}
+    0 & 1 & 1 \\
+    1 & 0 & 1 \\
+    1 & 1 & 0
+\end{bmatrix}
+*
+A_1 = 
+\begin{bmatrix}
+    2 & 1 & 1 \\
+    1 & 2 & 1 \\
+    1 & 1 & 2
+\end{bmatrix}
+\]
 
 \textbf{Using this fact we can easily see that the path with the smallest number of hops represents the shortest path. To find the smallest number of hops we can simply check which value of $k$ yields a value $> 0$. The first time this shows up represents the smallest number of hops between $(i,j)$ which also yields the smallest distance.}
 \mysolution{
@@ -262,11 +311,35 @@ Let $A$ denote the {\em adjacency matrix} of the graph, i.e., an $n \times n$ ma
 
 In other words, we can find all the {\em small} entries of the distance matrix. Let us see a different procedure that can handle the ``big'' entries.
 
+\textbf{Using our proof from (a) we know that for any two vertices $i,j$, their distance in the graph $d(i,j)$ is the smallest  $ k\ge 0$ such that $A^k(i,j) > 0$}
+\textbf{The bound $O(kn^2.5)$ simply comes from the matrix multiplication of $A$ to itself. We need to do this $k$ times to find the $A^k$ we are looking for. This $A^k$ gives us $d(i,j)$ for all pairs.}
+
 \part[5] Let $i,j$ be two vertices such that $d(i,j) \ge k$.  Prove that if we sample $(2 \ln n) \cdot \frac{n}{k}$ vertices of the graph uniformly at random, the probability of not sampling any vertex on the shortest path from $i$ to $j$ is $\le \frac{1}{n^2}$. [{\em Hint:} You may find the inequality $1-x \le e^{-x}$ helpful.]
-\end{parts}
+
+\textbf{We start off by defining the probability of failure for a single trial. We know that the shortest path has $k$ hops}
+\[
+1-\frac{k}{n}
+\]
+\textbf{If we do this $s$ times the probability of failure for $s$ trials is}
+\[
+(1-\frac{k}{n})^s
+\]
+\textbf{Next we can use the hint}
+\[
+(1-\frac{k}{n})^s \le e^{\frac{k}{n}s}
+\]
+\textbf{We can simplify the right side}
+\setcounter{equation}{0}
+\begin{align}
+e^{\frac{k}{n}s} = e^{-\frac{k}{n} * 2\ln(n) * \frac{n}{k}} \\
+e^{-\frac{k}{n} * 2\ln(n) * \frac{n}{k}} = e^{-2\ln(n)} \\ 
+e^{-2ln(n)} = n^{-2}
+\end{align}
+\textbf{Therefore if we sample $2\ln(n) * \frac{n}{k}$ vertices of the graph uniformly at random, the probability of not smapling any vertex on the shortest path from $i$ to $j$ is $\le \frac{1}{n^2}$}
 
 \mysolution{
 \input{Sol-6c}
 }
+\end{parts}
 \end{questions}
 \end{document}
