@@ -52,7 +52,7 @@ that a locally optimal solution produced this way has a value that is at least t
 each iteration is now more expensive ($O(n^3)$ instead of $O(n^2)$), but the
 approximation ratio is better.]\\
 
-\textbf{To start this proof assume we begin with a locally optimum solution. This means that no swaps of three pairs will result in a higher happiness score. To demonstrate the relationship that comes from this assume we have 4 kids $i,j,k,l,m$ the correspodning gifts for those 3 kids are $a,b,c,d,e$. Our goal here is to compare the locally optimum solution to the global. When comparing our solutions let $j$ be the child that receives $a$'s optimal gift, $k$ be the child that receives $j$'s optimal gift, $d$ be the child that recieves $c$'s optimal gift, and finaly let $e$ be the child that receives $m$'s optimal gift. Using this information we can get innequalities that will allow us to compare our two solutions.}
+\textbf{To start this proof assume we begin with a locally optimum solution. This means that no swaps of three pairs will result in a higher happiness score. To demonstrate the relationship that comes from this assume we have 5 kids $i,j,k,l,m$ the correspodning gifts for those 3 kids are $a,b,c,d,e$. Our goal here is to compare the locally optimum solution to the global. When comparing our solutions let $j$ be the child that receives $a$'s global optimal gift, $k$ be the child that receives $j$'s global optimal gift, $d$ be the child that recieves $c$'s global optimal gift, and finaly let $e$ be the child that receives $m$'s global optimal gift. Using this information we can get innequalities that will allow us to compare our two solutions.}
 
 \textbf{$V_{i,a} + V_{j,b} + V_{k,c} \ge V_{i,b} + V_{j,c} + V_{k,a}$ With our current problem structure we don't have any information on the happiness of $V_{k,a}$ so we will simply consider the worst case where the happiness received from the mapping of $V_{j,a}$ is $0$. Another thing to remember here is that $i$'s optimal gift is $b$ and $j$'s optimal gift is c}
 
@@ -61,15 +61,29 @@ approximation ratio is better.]\\
 \textbf{To make the pattern clear we will go one more level. $V_{k,c} + V_{l,d} + V_{m,e} \ge V_{k,d} + V_{l,e}$. Once again we consider the worst case for the last gift.}
 
 \textbf{Putting all of these innequalities together show us the pattern that will allow us to finish our proof}
+
+\textbf{Let $\sigma_i$ represent the locally optimum gift for child $i$}
+
+\textbf{Let $\gamma_i$ represent the globally optimum gift for child $i$}
 \begin{align}
-    V_{i,a} + V_{j,b} + V_{k,c} \ge V_{i,b} + V_{j,c} \\
-    V_{j,b} + V_{k,c} + V_{l,d} \ge V_{j,c} + V_{k,d} \\ 
-    V_{k,c} + V_{l,d} + V_{m,e} \ge V_{k,d} + V_{l,e}
+    V_{i,a} + V_{j,b} + V_{k,c} &\ge V_{i,b} + V_{j,c} \\
+    V_{j,b} + V_{k,c} + V_{l,d} &\ge V_{j,c} + V_{k,d} \\ 
+    V_{k,c} + V_{l,d} + V_{m,e} &\ge V_{k,d} + V_{l,e} \\ 
+    & ... \\
+    \hline \\  
+    \sum_{i=1}^{n}(V_{i,\sigma_i}) + \sum_{j=1}^{n}(V_{j,\sigma_j}) + \sum_{k=1}^{n}(V_{k,\sigma_k}) &\ge \sum_{i=1}^{n}(V_{i,\gamma_i}) + \sum_{j=1}^{n}(V_{j,\gamma_j}) 
 \end{align}
 
-\textbf{From this we can see that each edge in the locally optimum solution appears $3$ times and each edge in the globally optimum solution appears $2$ times. This pattern will continue for all children gift pairs so long as they are setup as above. A simplified expression for what this means is shown below}
+\textbf{From this we can see that each edge in the locally optimum solution appears $3$ times the left hand side and each edge in the globally optimum solution appears $2$ times on the right hand side. This pattern will continue for all children gift pairs so long as they are setup as above. We also notice that each summation on the left hand side is equivalent and each summation on the right hand side is equivalent. A simplified expression for what this means is shown below}
 
-\textbf{$3*L \ge 2*G$. Where $L$ is all of the edges in the locally optimal solution and $G$ is all of the solutions in the globally optimal solution. If we simplify this expression we get that $L \ge \frac{2}{3} G$}
+\begin{align}
+    3L \ge 2G
+\end{align}
+\textbf{Where $L$ is the locally optimal solution and $G$ is the globally optimal solution. If we simplify this expression we get that}
+
+\begin{align}
+    L \ge \frac{2}{3}G
+\end{align}
 
 \textbf{Therefore we have proven that a locally optimal solution produced this way has a value that is at least two-thirds the optimum value.}
 \mysolution{
@@ -88,7 +102,26 @@ A common heuristic for this problem is local search. Start with some subset of t
 \part[5]  Use local optimality to argue that:
 \[ d(x_1, q_2) + d(x_1, q_3) + \dots + d(x_1, q_t) \le d(q_1, q_2) + d(q_1, q_3) + \dots + d(q_1, q_t). \]
 
-\textbf{Because we know that our solution is a local optimum this innequality shows that the choice that we made for the first element of the list $q1$ must be $\le$ the choice that was made for the optimal $x1$. Swapping $q1$ for $x1$ here won't provide a better solution otherwise we would have swapped. Therefore the optimal must be $le$ the choice that we made (Remembering that we are trying to maximize the distance)}
+\textbf{This innequality comes from reasoning about the global optimum and the local optimum. As in the problem statement lets define the global optimum to be $x_1, x_2, ..., x_t$ and the local optimum to be $q_1, q_2, ..., q_t$}
+
+\textbf{first define $d(x,y)$ to be the distance between $x$ and $y$. We know by the definition of local optimality that:}
+\[\sum(d(x_i, x_j) \ge \sum(d(q_i,q_j)))\]
+
+\textbf{Or in words that the global optimum must be $\ge$ local optimum. Now lets look at the case where we swap one of the options in our local optimum $q_1$ for something in our global opimum $x_1$. We can use the second part of the definition of local optimality to argue the innequality below. Noting that by locality any swap of the pairs in the local optimum will not result in a better result}
+\[
+\sum(d(\text{swapped}) \le \sum(d(q_i,q_j)))
+\]
+\textbf{We can expand this innequality as follows. Starting with the left hand side}
+\[
+d(x_1,q_2) + d(x_1,q_3) + ... + d(x_1,q_t) + d(q_2, q_3) + d(q_2, q_4) + ... + d(q_2, q_t) + ... ... + d(q_{t-1}, q_t)
+\]
+\textbf{Next we can expand the left hand side}
+\[
+d(q_1,q_2) + d(q_1,q_3) + ... + d(q_1,q_t) + d(q_2, q_3) + d(q_2, q_4) + ... + d(q_2, q_t) + ... ... + d(q_{t-1}, q_t)
+\]
+
+
+\[ d(x_1, q_2) + d(x_1, q_3) + \dots + d(x_1, q_t) \le d(q_1, q_2) + d(q_1, q_3) + \dots + d(q_1, q_t). \]
 \mysolution{
 \input{Sol-2a}
 }
