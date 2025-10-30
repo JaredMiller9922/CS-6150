@@ -205,8 +205,9 @@ Clearly (due to the while loop), the algorithm returns a set $S$ that monitors a
 
 {\em Hint.} Consider the edges $\{i,j\}$ encountered when we run the algorithm. Could it be that the optimal set chooses {\em neither} of $\{i,j\}$?
 
-\textbf{To solve this problem we will exploit the hint. Assume we have an optimal set of vertices $S$ and an "lazy" set of vertices $k$. By the problem definition the algorithm must monitor all edges. This means that it would be impossible for the optimal set of vertices to not choose either of the vertices ${i,j}$. If we assume the absolute worst case each part of our unoptimal solution must cover at least 1 part of the optimal. If we apply this reasoning to all nodes we get that in the worst case}
+\textbf{To solve this problem we will exploit the hint. Assume we have an optimal set of vertices $S$ and an "lazy" set of vertices $k$. By the problem definition the algorithm must monitor all edges. This means that it would be impossible for the optimal set of vertices to not choose either of the vertices ${i,j}$. If we assume the absolute worst case our lazy algorithm chooses two vertices in the unoptimal solution. The optimal solution must cover at least 1 of these vertices. If we apply this reasoning to all nodes we get that in the worst case}
 \[|S| \le 2k\]
+
 \mysolution{
 \input{Sol-3c}
 }
@@ -233,15 +234,21 @@ Prove that, even though the for-loop at line 4 runs over all edges of $G$, \text
 
 \textbf{When the first edge is added we connect two of the disconnected components. This leaves us with exactly $n-1$ diconnected components}
 
-\textbf{For every edge after the first edge there are two cases. Case 1: We add an edge that comes from a vertice in a connected component and goes to a vertice outside of that connected component. In this case we are left with $n-2$ disconnected components. (You have one less disconnected component from the last step). Case 2: We add an edge with vertices that aren't in any connected components. In this case we also are left with $n-2$ disconnected components. Once we add an edge between 2 disconnected components they become 1 connected component.}
+\textbf{For every edge after the first edge there are two cases.}
 
-\textbf{That pattern continues as we iterate. From the pseudocode we can figure out what our stopping conditon would be. The algorithm loops through all edges and adds the edge if it doesn't result in a cycle. Because we know that our graph began connected we can gaurantee that the end result will also be connected. By definition of a tree we know that our final result will contain a single connected component and no disconnected components. Using what was proved in the paragraph above shows that we will add $n-1$ edges (each time we add an edge we are reducing the number of disconnected components by 1 and we reach termination when all disconnected components are connected). $n,n-1,n-2,...,1$}
+\textbf{Case 1: We add an edge that comes from a vertice in a connected component and goes to a vertice outside of that connected component. In this case we are left with $n-2$ disconnected components. (You have one less disconnected component from the last step).}
 
-\textbf{Because the problem asks us to show it is exaactly $n-1$ edges we will show by contradiction why $n-2$ egdges or $n$ edges isn't a valid solution}
+\textbf{Case 2: We add an edge with vertices that aren't in any connected components. In this case we also are left with $n-2$ disconnected components. Once we add an edge between 2 disconnected components they become 1 connected component.}
 
-\textbf{For $n-2$ the contradiction is easy. Assume that we have added $n-2$ edges. This means by definition that we have exactly $2$ disconnected components. When we finish. This fact can not be true because the for loop adds all edges that do not contain a cycle. This means that there must exist and edge between the $2$ connected components that can be added that wouldn't result in a cycle.}
+\textbf{That pattern continues as we iterate. From the pseudocode we can figure out what our stopping conditon would be. The algorithm loops through all edges and adds the edge if it doesn't result in a cycle. Because we know that our graph began connected we can gaurantee that the end result will also be connected.}
 
-\textbf{For $n$ the contradiction is also easy. Assume that we have added $n$ edges. This means by definition that we have added an edge after we only had a single connected component. This is a contradiciton because any edge added after we have a single connected component must result in a cycle (we already have a path to every other edge) by the pigeonhole principle.}
+\textbf{Each time we add an edge we are reducing the number of disconnected components by 1 so if we add $k$ edges we are reducing the number of disconnected components by $n-k$ and we reach termination when all disconnected components are connected. $n,n-1,n-2,...,1$. Therefore we will add $n-1$ edges when the loop is complete (*)}
+
+\textbf{Because the problem asks us to show it is exaactly $n-1$ edges we will show by contradiction why $n-2$ egdges and all number of edges less than that or $n$ edges and all number of edges greater than that aren't valid solutions}
+
+\textbf{For $n-2$ assume that we have added $n-2$ edges. This means from (*) that we have exactly $2$ disconnected components When we terminate. This fact can not be true because the for loop adds all edges that do not contain a cycle. Because we know the original graph was connected there must exist and edge between the $2$ connected components that can be added that wouldn't result in a cycle. This same argument can be applied to all $k < n-1$.} 
+
+\textbf{For $n$ assume that we have added $n$ edges. This means by definition that we have added an edge after we only had a single connected component. This is a contradiciton because any edge added after we have a single connected component must result in a cycle (we already have a path to every other edge) by the pigeonhole principle. This same argument can be applied to all $k > n$.}
 
 \textbf{We have therefor proven that even though the for-loop at line 4 runs over all edges of $G$ KRUSKAL adds exactly $n-1$ edges to T}
 
