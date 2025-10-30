@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1761846630.60123 "/home/jared/Desktop/Fall2025/CS-6150/Homeworks/Homework2/HW2-2025.tex" "HW2-2025.pdf" "HW2-2025" 1761846631.1794 0
+["pdflatex"] 1761851909.76274 "/home/jared/Desktop/Fall2025/CS-6150/Homeworks/Homework2/HW2-2025.tex" "HW2-2025.pdf" "HW2-2025" 1761851910.46426 0
   "/etc/texmf/web2c/texmf.cnf" 1755629903.52858 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/jared/Desktop/Fall2025/CS-6150/Homeworks/Homework2/HW2-2025.tex" 1761846629.20255 28743 bbaec183aed94a37848ef7901e1d5d7a ""
+  "/home/jared/Desktop/Fall2025/CS-6150/Homeworks/Homework2/HW2-2025.tex" 1761851908.79982 30629 df0dc2484ba828e65bd03f85daba019c ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex8.tfm" 1246382020 988 bdf658c3bfc2d96d3c8b02cfc1c94c20 ""
@@ -81,8 +81,9 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1755630509.99993 165012 f177baa1c39a3ebd62c3096a43521a0d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1755630517 6831199 b7de6592b6bfbbed1ba6c829e6c32696 ""
-  "HW2-2025.aux" 1761846631.09892 2827 180ebb5e3bfa7a648c805081bd149c27 "pdflatex"
-  "HW2-2025.tex" 1761846629.20255 28743 bbaec183aed94a37848ef7901e1d5d7a ""
+  "HW2-2025.aux" 1761851910.38724 2994 8db9e6242d8a758285f2220987efad09 "pdflatex"
+  "HW2-2025.tex" 1761851908.79982 30629 df0dc2484ba828e65bd03f85daba019c ""
+  "RHS expansion.png" 1761851585.17139 50113 b728ef9f24167af883ad6662e91eccfd ""
   "hotels.png" 1761841579.25064 102443 c3af057634e0009b2a7cbf022464596e ""
   (generated)
   "HW2-2025.aux"

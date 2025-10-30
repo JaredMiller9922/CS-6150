@@ -131,12 +131,16 @@ d(q_1,q_2) + d(q_1,q_3) + ... + d(q_1,q_t) + d(q_2, q_3) + d(q_2, q_4) + ... + d
 \textbf{The first thing to notice here is the term $d(x1,x2)$. With our current equations we don't really have any information on the distances between the optimal. Because of this we need to use a fact that is true for all Euclidean distances. We will use the triangle innequality.}
 \[d(x_1,x_2) \le d(x_1, q_j) + d(q_j, x_2)\]
 \textbf{When we are doing our distances comparisons we compare the point with every other point than itself so we can generalize this to all points}
-\[(t-1)d(x_1,x_2) \le \sum_{j=2}^td(x_1, q_j) + \sum_{j=2}^td(q_j, x_2)\]
+\begin{align}
+(t-1)d(x_1,x_2) \le \sum_{j=2}^td(x_1, q_j) + \sum_{j=2}^td(q_j, x_2) \tag{*} 
+\end{align}
 \textbf{We can now introduce the information we learned from (a) to reason about those two sums}
 \[\sum_{j=2}^td(x_1, q_j) \le \sum_{j=2}^td(q_1, q_j)\]
 \[\sum_{j=2}^td(x_2, q_j) \le \sum_{j=2}^td(q_1, q_j)\]
-\textbf{Simply plugging in those new innequalities we get the innequality asked for. We are okay to plug these in because we know they are strictly greater than so we don't ruin the innequality at the top}
-\[ (t-1) \cdot d(x_1, x_2) \le 2 \left[ d(q_1, q_2) + d(q_1, q_3) + \dots + d(q_1, q_t) \right]. \]
+\textbf{Simply plugging in those new innequalities into (*) we get the innequality asked for. These are strictly greater than the quantities in (*) so plugging them in doesn't ruin the innequality}
+\begin{align*}
+(t-1) \cdot d(x_1, x_2) \le 2 \left[ d(q_1, q_2) + d(q_1, q_3) + \dots + d(q_1, q_t) \right]. \tag{f\_b}
+\end{align*}
 \setcounter{equation}{0}
 \mysolution{
 \input{Sol-2b}
@@ -144,16 +148,60 @@ d(q_1,q_2) + d(q_1,q_3) + ... + d(q_1,q_t) + d(q_2, q_3) + d(q_2, q_4) + ... + d
 
 \part[10] Use this expression to argue that 
 \[ \sum_{i,j} d(x_i, x_j) \le 2 \sum_{i,j} d(q_i, q_j).\]
-\textbf{The argument for (b) can be applied to all pairs of points in the optimum}
-Note: this shows that the local optimum has an objective value at least $\nicefrac{1}{2o
-}$ the global optimum.
-\textbf{The main idea is to generalize what we got in (b) to all terms. All of the arguments from a and b can be applied to all values in the optimal solution}
-\[(t-1)\sum_{i,j}d(x_i,x_j) \le 2 * (t-1)\sum_{i,j}d(q_i,q_j)\]
-\textbf{The value of (t-1) is just a constant so it can be factored out of each element of the sum. We also realize that each term is counted twice on the right hand using the two equations from (a). We know that there are $t-1$ terms and each of those terms are counted twice which is where the extra $(t-1)$ comes from on the left hand side.} 
-\[ d(x_1, q_2) + d(x_1, q_3) + \dots + d(x_1, q_t) \le d(q_1, q_2) + d(q_1, q_3) + \dots + d(q_1, q_t). \]
-\[ d(x_2, q_2) + d(x_2, q_3) + \dots + d(x_2, q_t) \le d(q_2, q_1) + d(q_2, q_3) + \dots + d(q_2, q_t). \]
-\textbf{Simplify by removing the $(t-1)$ from both sides to get the answer}
-\[ \sum_{i,j} d(x_i, x_j) \le 2 \sum_{i,j} d(q_i, q_j).\]
+Note: this shows that the local optimum has an objective value at least $\nicefrac{1}{2o}$ the global optimum.
+
+\textbf{We will start by generalizing the left hand side of the equation $f_b$. To do this we will count how many terms will appear if we apply the left hand side to all points in the global optimum. If we expand out the summation we notice this pattern}
+\begin{align*}
+d(x_1, x_2), d(x_1, x_3), d(x_1, x_4), ... \\ 
+             d(x_2, x_3), d(x_2, x_4), ... \\
+                          d(x_3, x_4), ... \\ 
+                                     , ...
+\end{align*}
+\textbf{Counting the number of terms that appear and noticing arithmetic series}
+\begin{align*}
+t - 1 \\ 
+t - 2 \\ 
+... \\
+= \frac{(t-1) * t}{2} \tag{**}
+\end{align*}
+
+\textbf{We can now fully generalize the left hand side taking special care to remember how many terms came from that expansion so we can later apply it to the right hand side}
+\[
+(t-1) \sum_{i,j} d(x_i, x_j)
+\]
+
+\textbf{Because of the form of $f\_b$ for every term of the sum of the left hand side we get the right hand side.}
+\begin{align*}
+    (t-1) * \sum_{i,j}d(x_i, x_j) \le \frac{(t-1) * t}{2} * 2 * \sum_{j=2}^{t} d(q_1,q_j)
+\end{align*}
+\textbf{Note: The first term in the equation comes from the count analysis in (**). The summation comes from the right hand side of $f\_b$ taking special care to remember that the equation only considers distances from $q_1$. Simplifying the equaiton gives:}
+\begin{align*}
+    \sum_{i,j}d(x_i, x_j) \le t \sum_{j=2}^{t} d(q_1,q_j)
+\end{align*}
+\textbf{We now want to generalize the right hand side to all pairs $(q_k,q_j)$ do this by summing over all t}
+
+\begin{align*}
+    \sum_k^t \sum_{i,j}d(x_i, x_j) \le \sum_k^t t \sum_{j=2}^{t} d(q_k,q_j) \\
+    t * \sum_{i,j} d(x_i, x_j) \le t \sum_k^t \sum_{j=2}^{t} d(q_k,q_j) \\
+    \sum_{i,j} d(x_i, x_j) \le \sum_k^t \sum_{j=1}^{t} d(q_k,q_j) \\
+    \sum_{i,j} d(x_i, x_j) \le \sum_{k,j}^{t} d(q_k,q_j) \\
+\end{align*}
+\textbf{Note that the summation in the last equation starts at $j=1$ rather than $j=2$ this is because when we generalize we need to consider $q_1$ with every other gift}
+\textbf{When we do the summation on right side we get the following}
+ \begin{figure}[H]
+ \centering
+  \includegraphics[width=0.5\textwidth]{RHS expansion.png}
+ \caption{Table Expansion of Right Hand Side}
+ \end{figure}
+
+\textbf{The checkmarks represent the entries that are included for each row and the cirlces represent the ones that are excluded (they are excluded because they were already taken care of)}
+
+\textbf{We notice that every pair $(q_k,q_j)$ appears twice once in the form $(q_k,q_j)$ and in the form $(q_j, q_k)$. This gives the following}
+\begin{align*}
+\sum_{i,j} d(x_i, x_j) \le 2 * \sum_{k,j}^{t} d(q_k,q_j) \\
+\end{align*}
+
+\textbf{Therefore we have found the innequality that was asked for and we know that the local optimum has an objective value at least $\frac{1}c{2}$ the global optimum}
 \mysolution{
 \input{Sol-2c}
 }
@@ -302,7 +350,7 @@ It is okay if you do not include a formal proof of correctness. Please give: i) 
 
 \textbf{Line 10 takes $O(N\_r + M\_r)$ using the usual BFS algorihtm implemented in class}
 
-\textbf{This analysis shows clearly that the overall runtime of the algoirhtm is polynomial like expected.}
+\textbf{This analysis shows clearly that the overall runtime of the algorihtm is polynomial like expected.}
 
 \mysolution{
 \input{Sol-5}
