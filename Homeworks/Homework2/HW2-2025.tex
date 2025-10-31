@@ -52,7 +52,14 @@ that a locally optimal solution produced this way has a value that is at least t
 each iteration is now more expensive ($O(n^3)$ instead of $O(n^2)$), but the
 approximation ratio is better.]\\
 
-\textbf{To start this proof assume we begin with a locally optimum solution. This means that no swaps of three pairs will result in a higher happiness score. To demonstrate the relationship that comes from this assume we have 5 kids $i,j,k,l,m$ the correspodning gifts for those 3 kids are $a,b,c,d,e$. Our goal here is to compare the locally optimum solution to the global. When comparing our solutions let $j$ be the child that receives $a$'s global optimal gift, $k$ be the child that receives $j$'s global optimal gift, $d$ be the child that recieves $c$'s global optimal gift, and finaly let $e$ be the child that receives $m$'s global optimal gift. Using this information we can get innequalities that will allow us to compare our two solutions.}
+\textbf{To start this proof assume we begin with a locally optimum solution. This means that no swaps of three pairs will result in a higher happiness score. To demonstrate the relationship that comes from this assume we have 5 kids $i,j,k,l,m$ the correspodning gifts for those 3 kids are $a,b,c,d,e$. Our goal here is to compare the locally optimum solution to the global. When comparing our solutions let $j$ be the child that receives $a$'s global optimal gift, $k$ be the child that receives $j$'s global optimal gift, $d$ be the child that recieves $c$'s global optimal gift, and finaly let $e$ be the child that receives $m$'s global optimal gift. the illustration below demonstrates this relationship}
+ \begin{figure}[H]
+ \centering
+  \includegraphics[width=0.3\textwidth]{Gift Giving.png}
+ \caption{Diagram of Relationship As Requested By Yash}
+ \end{figure}
+
+\textbf{Using this information we can get innequalities that will allow us to compare our two solutions.}
 
 \textbf{$V_{i,a} + V_{j,b} + V_{k,c} \ge V_{i,b} + V_{j,c} + V_{k,a}$ With our current problem structure we don't have any information on the happiness of $V_{k,a}$ so we will simply consider the worst case where the happiness received from the mapping of $V_{j,a}$ is $0$. Another thing to remember here is that $i$'s optimal gift is $b$ and $j$'s optimal gift is c}
 
@@ -318,25 +325,22 @@ It is okay if you do not include a formal proof of correctness. Please give: i) 
 
 \textbf{(i): When I was coming up with an algorithm I realized that we would start by check if $d$ was reachable from $h$ in $\le 7 \text{ steps}$. If it wasn't our only other option would be to visit a hotel. From this hotel we would check if d was reachable in $\le 7 \text{ steps}$. If it was not I would have to use another hotel.}
 
-\textbf{Using this understanding we can create a reachability graph where $n = \{H,h,d\} $ and $m = \text{(u,v)}$ is an edge if there exists a path from $u \text{ to } v$. Once this reachability graph is created we can run BFS to find the minimum number of stops in our reachability graph or DFS if we just want to check if a path exists}
+\textbf{Using this understanding we can create a reachability graph $G' = (N, M)$ such that $N = \{H,h,d\} $ and $(u,v) \in M$ if there exists a path from $u \text{ to } v \le 7 \text{ hours}$ . Once this reachability graph is created we can run BFS to find the minimum number of stops in our reachability graph or DFS if we just want to check if a path exists}
 
-\textbf{(ii): Note - This algorithm assumes that the number of hotels + source + dest is smaller than the number of nodes in the graph. If every node is either the source, dest, or a hotel this algorithm is no longer polynomial.}
-
-\textbf{Note - This algorithm also assumes that there is a subroutine $\text{Djikstras}(start, end)$ that returns true if there is a path from start to end that has a path cost of $\le 7$. This subroutine is implemented exactly as Djikstras was in class but it doesn't add any edge weights to the connected component that have a cummulative cost higher than 7}
+\textbf{(ii): Note - This algorithm assumes that there is a subroutine $\text{Djikstras}(start, end)$ that returns true if there is a path from start to end that has a path cost of $\le 7$. This subroutine is implemented exactly as Djikstras was in class}
 
 \textbf{Note - This algorithm assumes there is a subroutine $\text{BFS}(\text{nodes, edges, start, end})$ that returns true if there exists a path in the graph $G=(nodes, edges)$ between start and end and returns false otherwise. This algorithm is implemented exactly how we saw BFS implemented in class}
 
 \begin{algorithm}
 \caption{TripPlanning$(h,d,G,H)$}\label{alg:cap}
 \begin{algorithmic}[1]
-\State $H \gets \{H,h,d\}$ \Comment{Add source and destination to H}
-\State $N\_r \gets H$ \Comment{Nodes of reachability graph}
-\State $M\_r \gets \{\}$ \Comment{Edges of reachability graph} 
-\For{every node $N$ in $N\_r$}
-\State{Call Djikstras(N, X) where X is every other node in H}
-\If{path exists between H and x}
-\State{Add edge $(N,X)$ to $M_r$}
-\EndIf
+\State $N \gets H \cup \{h,d\}$ \Comment{Nodes of reachability graph}
+\State $M \gets \{\}$ \Comment{Edges of reachability graph} 
+\For{every node $u$ in $N$}
+\State $\text{dists}[] \gets$ Call Djikstras(u) \Comment{Gives shortest path from u to all v}
+\For{every element $a$ in $\text{dists}$}
+\State If $a > 7$ discard otherwise add edge $(u, v)$ to reachability graph
+\EndFor
 \EndFor \\
 \Return{$\text{BFS}(N\_r, M\_r, h, d)$}
 \end{algorithmic}
@@ -344,13 +348,19 @@ It is okay if you do not include a formal proof of correctness. Please give: i) 
 
 \textbf{(iii): }
 
-\textbf{Lines 1-3 are constant}
+\textbf{Lines 1-2 are constant}
 
-\textbf{The for loop on lines 4-9 take $O(N^2 * logn(m+n))$  where N is the number of hotels + source + destination. The $N^2$ comes from the fact that we have to try all distinct pairs of the values in $N$. The other terms besides the $N$ simply come from the algorithm of Djikstras discussed in class.}
+\textbf{The for loop on lines 3 takes $O(N * logn(m+n))$  where N is the number of hotels + source + destination. The $N$ comes from the fact that we have to run Djikstras for all the values in $N$. The other terms besides the $N$ simply come from the algorithm of Djikstras discussed in class.}
 
-\textbf{Line 10 takes $O(N\_r + M\_r)$ using the usual BFS algorihtm implemented in class}
+\textbf{The for loop on line 5 takes $O(|N|)$ in the worst case.}
 
-\textbf{This analysis shows clearly that the overall runtime of the algorihtm is polynomial like expected.}
+\textbf{Line 10 takes $O(N + M)$ using the usual BFS algorihtm implemented in class}
+
+\textbf{Summing up all of our runtimes we get total runtime which is polynomial}
+\begin{align*}
+O(N * logn(m+n) * |N| + (N + M)) \\
+O(N * logn(m+n))
+\end{align*}
 
 \mysolution{
 \input{Sol-5}
@@ -367,26 +377,37 @@ Let $A$ denote the {\em adjacency matrix} of the graph, i.e., an $n \times n$ ma
 \part[10] Prove that for any two vertices $i,j$, their distance in the graph $d(i,j)$ is the smallest $k\ge 0$ such that $A^k (i,j) > 0$.\\
 
 
-\textbf{Claim: For any two vertices $i,j$ their distance in the graph $d(i,j)$ is the smallest $k \ge 0$ such that $A^k(i,j) > 0$. This claim is stating that the first $k_th$ matrix where $i,j$ is zero represents the distance between the two vertices $i,$}
+\textbf{Claim: For any two vertices $i,j$ their distance in the graph $d(i,j)$ is the smallest $k \ge 0$ such that $A^k(i,j) > 0$. This claim is stating that the first value of $k$ for which the $A^k(i,j) > 0$ represents the shortest distance $d$ between the two vertices $i,j$}
 
-\textbf{To solve this problem it is important to understand what each $A^k$ represents. When $k=1$ $A^k$ represents the connections that are one "hop" away from each node or directly connected by an edge. When we increment $k$ to $k+1 = 2$ $A^k$ represents the connections that are $2$ hops away. This is a known fact in graph theory for unweighted and undirected graphs and an example can be seen below}
+\textbf{We need to prove two facts.}
+
+\textbf{Fact 1: At $k=d: A^k[i,j] > 0$.}
+
+\textbf{Fact 2: At any $k<d: A^k[i,j] = 0$.}
+
+\textbf{We can use induction to prove fact 1.}
+
+\textbf{Base Case: $k=1$. $A^1$ is the adjacency matrix and all non zero entries represent a direct neighbor. There cannot be a shorter path from $[i,j]$ then 1 so the base case is true}
+
+\textbf{Inductive hypothesis. Assume we are given that for all $p < P$ $A^{p-1}[i,j] > 0$ represents the shortest path from $[i,j]$ which is of distance $p-1$}
+
+\textbf{Inductive case. Using our inductive hypothesis and the definition of matrix multiplication we can show that for $p = P$ $A^{P}[i,j] > 0$ represents the shortest path from $[i,j]$ of length $P$. Start with the following.}
 \[
-A_1 = 
-\begin{bmatrix}
-    0 & 1 & 1 \\
-    1 & 0 & 1 \\
-    1 & 1 & 0
-\end{bmatrix}
-*
-A_1 = 
-\begin{bmatrix}
-    2 & 1 & 1 \\
-    1 & 2 & 1 \\
-    1 & 1 & 2
-\end{bmatrix}
+A^{P}_{i,j} = \sum_{n}^{k=1} A^{P-1}_{i,k} * A_{k,j}
 \]
+\textbf{This illustration also demonstrates this fact.}
 
-\textbf{Using this fact we can easily see that the path with the smallest number of hops represents the shortest path. To find the smallest number of hops we can simply check which value of $k$ yields a value $> 0$. The first time this shows up represents the smallest number of hops between $(i,j)$ which also yields the smallest distance.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Matrix Multiplication.jpg}
+\end{figure}
+
+\textbf{By our inductivie hypothesis we know that if $A^{P-1}_{i,k} > 0$ then $d(i,k) = P - 1$. We also notcie from the base case that when the other term $A_{k,j} > 0$ that $d(k,j) = 1$. We are trying to show that the left-hand side is $>0$. The left-hand side can only $ > 0$ when both terms on the right hand side are greater than $0$. From this we can find the distance of the path $i$ to $j$ to be $P-1 + 1$ which is exactly $P$. Therefore we have shown that $A^P[i,j] > 0$ represents the shortest path from $[i,j]$ with a distance of $P$. This fact proves our inductive case. We can then put together our base case and our inductive case proofs to prove fact 1 by induction.}
+
+\textbf{We can use contradiction to prove fact 2. Lets assume there is some $k' < d$ such that $A^{k'}[i,j] > 0$. This means that their exists a path of length $k'$ from $[i,j]$. This is a contradiciton because we have already established earlier that the length of the shortest path is $d$ and this claim says that $k' < d$. Therefore fact 2 must be true by contradiction}
+
+\textbf{Having proved fact 1 and fact 2 we have proven that for any two vertices $i,j$, their distance in the graph $d(i,j)$ is the smallest $k \ge 0$ such that $A^k(i,j) > 0$}
+
 \mysolution{
 \input{Sol-6a}
 }
@@ -399,8 +420,41 @@ A_1 =
 
 In other words, we can find all the {\em small} entries of the distance matrix. Let us see a different procedure that can handle the ``big'' entries.
 
+\textbf{Provided is pseudocode for the proposed algorithm}
+
+\begin{algorithm}
+\caption{Find Shortest Paths}\label{alg:cap}
+\begin{algorithmic}[1]
+    \State B = I \Comment Let I be the identity matrix
+    \For {1 to k}
+        \State $B = B * A$
+        \State Loop through A and check which entries are non-zero. \Comment These entries are shortest $d(i,j)$
+    \EndFor
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Line 1 takes constant time}
+
+\textbf{Line 2 is run $k-1$ times we will just say $k$ for simplicity as it doens't change our big-o.}
+
+\textbf{Line 3 takes $O(n^2.5)$ which was given}
+
+\textbf{Line 4 takes $O(n^2)$ loop through each element of the matrix}
+
+\textbf{From this we get a final runtime}
+\begin{align*}
+    O(k (n^{2.5} + n^2)) \\ 
+    O(kn^{2.5} + kn^2) \\
+    O(kn^{2.5})
+\end{align*}
+
+\textbf{This is a polynomial runtime}
+
+\textbf{Before talking to Yash I also explained the runtime through text. I think that it is much better explained through the psuedo code but I have left it there as "extra work"}
+
 \textbf{Using our proof from (a) we know that for any two vertices $i,j$, their distance in the graph $d(i,j)$ is the smallest  $ k\ge 0$ such that $A^k(i,j) > 0$}
-\textbf{The bound $O(kn^2.5)$ simply comes from the matrix multiplication of $A$ to itself. We need to do this $k$ times to find the $A^k$ we are looking for. This $A^k$ gives us $d(i,j)$ for all pairs.}
+\textbf{The bound $O(kn^2.5)$ simply comes from the matrix multiplication of $A$ to itself. We need to do this $k$ times to find the $A^k$ we are looking for. This $A^k$ gives us $d(i,j)$ for all pairs $\le$ all pairs of $k$. At every step of the matrix multiplication we need to scan our array and keep track of the first time that the entry becomes nonzero. This is because there are cases where we could reach a vertice in $a$ hops but not $a+1$ hops.}
+
 
 \part[5] Let $i,j$ be two vertices such that $d(i,j) \ge k$.  Prove that if we sample $(2 \ln n) \cdot \frac{n}{k}$ vertices of the graph uniformly at random, the probability of not sampling any vertex on the shortest path from $i$ to $j$ is $\le \frac{1}{n^2}$. [{\em Hint:} You may find the inequality $1-x \le e^{-x}$ helpful.]
 
