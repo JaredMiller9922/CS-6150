@@ -208,7 +208,7 @@ t - 2 \\
 \sum_{i,j} d(x_i, x_j) \le 2 * \sum_{k,j}^{t} d(q_k,q_j) \\
 \end{align*}
 
-\textbf{Therefore we have found the innequality that was asked for and we know that the local optimum has an objective value at least $\frac{1}c{2}$ the global optimum}
+\textbf{Therefore we have found the innequality that was asked for and we know that the local optimum has an objective value at least $\frac{1}{2}$ the global optimum}
 \mysolution{
 \input{Sol-2c}
 }
@@ -240,6 +240,18 @@ In class, we saw the set cover problem (phrased as picking the smallest set of p
 }
 
 \part[6] Consider the following ``street surveillance'' problem. We have a graph $(V, E)$ with $n$ nodes and $m$ edges. We are allowed to place surveillance cameras at the nodes. Once placed, they can monitor all the edges incident to the node. The goal is to place as few cameras as possible, so as to monitor {\bf all the edges} in the graph. Show how to cast the street surveillance problem as Set Cover.
+
+\textbf{Inputs to set cover $(P,S,m,M)$}
+
+\textbf{P: Vertices representing people $\rightarrow$ V: Vertices representing nodes of graph}
+
+\textbf{M: Set of desired skills $\rightarrow$ E: Set of edges representing streets}
+
+\textbf{m: Set of edges $(u,v)$ such that person $u$ covers skill $v \in M$ $\rightarrow$ m: set of edges $(u,v)$ such that node $u$ is incident to street $v$}
+
+\textbf{Output of street surveillance: Subset of nodes that cover all edges $\rightarrow$ Output of set cover: Subset of people that cover all skills}
+
+\textbf{I talked with Yash and he reccomended the approach above. I have still left my previous explanation for "extra work"}
 
 \textbf{Instead of thinking of uncovered skills think of the edges as unsurveiled streets. Instead of getting the minimum number of people that cover all skills, we want to setup the minimum number of cameras such that each street is surveiled. Each node contains a subset of the unsurveiled streets (whichever edges are incident to that node.) With this problem setup we can use the exact same greedy logic as set coverage. Like set cover this solution won't be optimal but will still have the same bound $t=k\log_e(n)$}
 
@@ -458,24 +470,26 @@ In other words, we can find all the {\em small} entries of the distance matrix. 
 
 \part[5] Let $i,j$ be two vertices such that $d(i,j) \ge k$.  Prove that if we sample $(2 \ln n) \cdot \frac{n}{k}$ vertices of the graph uniformly at random, the probability of not sampling any vertex on the shortest path from $i$ to $j$ is $\le \frac{1}{n^2}$. [{\em Hint:} You may find the inequality $1-x \le e^{-x}$ helpful.]
 
-\textbf{We start off by defining the probability of failure for a single trial. We know that the shortest path has $k$ hops}
+\textbf{We start off by defining the probability of failure for a single trial. We know that the shortest path has $k$ hops and $k+1$ vertices}
 \[
-1-\frac{k}{n}
+1-\frac{k+1}{n}
 \]
 \textbf{If we do this $s$ times the probability of failure for $s$ trials is}
 \[
-(1-\frac{k}{n})^s
+(1-\frac{k+1}{n})^s
 \]
 \textbf{Next we can use the hint}
 \[
-(1-\frac{k}{n})^s \le e^{\frac{k}{n}s}
+(1-\frac{k+1}{n})^s \le e^{\frac{k+1}{n}s}
 \]
 \textbf{We can simplify the right side}
 \setcounter{equation}{0}
 \begin{align}
-e^{\frac{k}{n}s} = e^{-\frac{k}{n} * 2\ln(n) * \frac{n}{k}} \\
-e^{-\frac{k}{n} * 2\ln(n) * \frac{n}{k}} = e^{-2\ln(n)} \\ 
-e^{-2ln(n)} = n^{-2}
+e^{\frac{k+1}{n}s} = e^{-\frac{k+1}{n} * 2\ln(n) * \frac{n}{k+1}} \\
+e^{-\frac{k+1}{n} * 2\ln(n) * \frac{n}{k+1}} = e^{-2\ln(n)} \\ 
+e^{-2ln(n)} = n^{-2} \\
+e^{-2ln(n)} = \frac{1}{n^2} \\
+(1-\frac{k+1}{n})^s \le e^{-2ln(n)} \le \frac{1}{n^2}
 \end{align}
 \textbf{Therefore if we sample $2\ln(n) * \frac{n}{k}$ vertices of the graph uniformly at random, the probability of not smapling any vertex on the shortest path from $i$ to $j$ is $\le \frac{1}{n^2}$}
 
