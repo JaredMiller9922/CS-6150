@@ -1,0 +1,217 @@
+\documentclass[addpoints]{exam}
+\usepackage{url}
+\usepackage{amsmath,amsthm,enumitem, amssymb}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\newcommand\ex{\mathbb{E}}
+
+%\def\mysolution#1{#1}
+\def\mysolution#1{}
+
+\newtheorem*{claim}{Claim}
+\title{CS 6150 - Fall 2025 - HW 3\\ Randomized algorithms, Optimization formulations}
+\date{Submission date: Wednesday, November 26, 2025 (11:59 PM)}
+\begin{document}
+\maketitle
+
+\begin{center}
+\fbox{\fbox{\parbox{5.5in}{\centering
+This assignment has \numquestions\ questions for a total of \numpoints\  
+points. You will still be graded out of 100, and any points you earn above 100 will count as bonus and can compensate for a low score on other homeworks. Unless otherwise specified, complete and well-reasoned formal arguments will be expected in all answers. }}}
+\end{center}
+
+\qformat{Question \thequestion: \thequestiontitle\dotfill \textbf{[\totalpoints]}}
+\pointname{}
+\bonuspointname{}
+\pointformat{[\bfseries\thepoints]}
+
+
+\begin{center}
+  \gradetable
+\end{center}
+\newpage
+{\setlength{\parindent}{0cm} \textbf{Note: This homework has been released early. Some of the material required to solve these problems will be taught in class in the upcoming weeks. However, you should still be able to get started on a few questions using what has been taught so far.}}\\
+
+\begin{questions}
+\titledquestion{Superheroes}
+A cereal company has decided to give out superhero stickers with boxes of its cereal.  There are $n$ superheroes in total, and suppose that each cereal box you buy has a sticker of a uniformly random superhero. What is the expected number of boxes you need to buy so that you end up with at least one copy of {\em all} the $n$ stickers?
+
+There are many ways to do this analysis; let us see one of them. We would like to write down a recurrence for the expected value. Define $B(k)$ to be the expected number of boxes you need to buy to end up with all the stickers, {\em given that you have already seen} $k$ {\em distinct stickers}. Thus, when $k=n$, we get $B(n) = 0$ as no more boxes need to be bought once you see all $n$ stickers. When you begin buying boxes, you have seen no stickers so far (i.e. $k=0$ in the beginning).
+
+\begin{parts}
+\part[10] Use the law of conditional expectations to prove that
+\[ B(k) = \frac{n}{n-k} + B(k+1)\]
+\mysolution{\input{1a-sol}}
+
+\textbf{Define $X$ = $T_k$ where $T_k$ is the number of expected boxes of cereal we need to purchase after seeing $k$ stickers}
+\[
+\ex[X] = \ex[T_k]
+\]
+
+\textbf{The law of conditional expectations states that}
+\[
+\ex[X] = \ex[\ex[X | Y]] \rightarrow \ex[T_k] = \ex[\ex[T_k | Y]]
+\]
+
+\textbf{Define $Y$ to be a random variable where}
+\begin{align*}
+Y &= 1 \text{ If the box purchased gives a unique sticker} \\
+Y &= 0 \text{ If the box purchased gives a sticker we've already seen}
+\end{align*}
+
+\textbf{If we take expectation over all possible values of $Y$ we get the following}
+\begin{align*}
+\ex[X|Y] = \ex[T_k | Y = 1] * \Pr[Y=1] + \ex[T_k | Y = 0] * \Pr[Y=0] \tag{*}
+\end{align*}
+
+\textbf{Lets consider the case where we get a sticker we haven't seen and the case where we don't, and how that affects expectation}
+\begin{align*}
+\ex&[T_k | Y = 1] = 1 + T_{k+1} \rightarrow 1 + B(k+1) \\
+\ex&[T_k | Y = 0] = 1 + T_k \rightarrow 1 + B(k)
+\end{align*}
+\textbf{The 1 in both (1) and (2) come from the fact that we have purchased another box. After we purchase a box we update our random variable $T_k$ to either have seen another one of the $k$ stickers or to not have seen it.}
+
+\textbf{Define Probabilities:}
+\begin{align*}
+\Pr&[Y=1] = \frac{n-k}{n}  \\
+\Pr&[Y=0] = \frac{k}{n} 
+\end{align*}
+
+\textbf{Plug all values those back into $(*)$}
+\begin{align*}
+&B(k) = \frac{n-k}{n} * (1 + B(k+1)) + \frac{k}{n} * (1+B(k)) \\
+&B(k) = 1 + \frac{n-k}{n} B(k+1) + \frac{k}{n} B(k) \\
+&B(k) - \frac{k}{n}B(k) = 1 + \frac{n-k}{n} B(k+1) \\
+&B(k) (1-\frac{k}{n}) = 1 + \frac{n-k}{n} B(k+1) \\
+&B(k) (\frac{n}{n}-\frac{k}{n}) = 1 + \frac{n-k}{n} B(k+1) \\
+&B(k) (\frac{n-k}{n}) = 1 + \frac{n-k}{n} B(k+1) \\
+&B(k) = \frac{n}{n-k} + B(k+1)
+\end{align*}
+
+\part[10] Use the above result to answer the original question: What is the expected number of boxes you need to buy so that you end up with at least one copy of {\em all} the $n$ stickers?
+
+[{\em Hint: } $1 + \frac{1}{2} + \frac{1}{3} + \dots + \frac{1}{n} = \ln n + c$ for some $c \in (0,1)$.]
+
+\textbf{Plug and Chug starting with k = 0. Base case $B(n)$ = 0 (The case where all stickers are found)}
+\begin{align*}
+B(0) &= \frac{n}{n} + B(1) \\
+&= \frac{n}{n} + \frac{n}{n-1} + B(2) \\
+&= \frac{n}{n} + \frac{n}{n-1} + \frac{n}{n-2} + B(3) \\
+&=  \frac{n}{n} + \frac{n}{n-1} + \frac{n}{n-2} + ... + \frac{n}{1} \\
+\end{align*}
+
+\textbf{The final term comes from the fact that the last $k$ before the base case is $n - (n-1)$. Lets now factor $n$ out of everything}
+
+\begin{align*}
+B(0) &= n (\frac{1}{n} + \frac{1}{n-1} + \frac{1}{n-2} + ... + 1) \\
+B(0) &= n (1 + \frac{1}{2} + \frac{1}{3} + ... + \frac{1}{n}) \\
+B(0) &= n (\ln{n} + c \text{, } c \in (0,1))
+\end{align*}
+
+\mysolution{\input{1b-sol}}
+
+\part[5] Suppose $n \ge 3$. Prove that the probability of the event $V$ is not more than 25\%, where $V$ = seeing all $n$ stickers on buying \textbf{exactly} $8n \ln n$ boxes.
+
+[\textit{Hint}: Markov's inequality can be generally stated as: $\Pr[X \ge p] \le \cfrac{\ex[X]}{p}$. Can you see why?]
+\begin{align*}
+\Pr&[B(t) \ge 8nln(n)] \le \frac{\ex[X]}{8nln(n)} \\
+\Pr&[B(t) \ge 8nln(n)] \le \frac{n(ln(n) + c)}{8nln(n)} \\
+\Pr&[B(t) \ge 8nln(n)] \le \frac{ln(n) + c}{8ln(n)} \\
+\Pr&[B(t) \ge 8nln(n)] \le \frac{ln(n) + c}{8ln(n)} \le 0.25 \\
+\end{align*}
+
+\textbf{Lets simplify this further}
+\begin{align*}
+\frac{ln(n) + c}{8ln(n)} &\le 0.25 \\
+ln(n) + c &\le {0.25 * 8ln(n)} \\
+ln(n) + c &\le {2ln(n)} \iff c \le ln(n)\\
+\end{align*}
+
+\textbf{We know $c \in (0,1)$ and $n \ge 3$}
+\begin{align*}
+ln(n) \ge ln(3) > 1 > c
+\end{align*}
+
+\textbf{Bringing it all together}
+\begin{align*}
+\Pr&[B(t) \ge 8nln(n)] \le \frac{1}{4} \\
+\end{align*}
+
+
+\mysolution{\input{1c-sol}}
+\end{parts}
+
+\vspace{1cm}
+
+\titledquestion{Birthdays and applications}
+Suppose we have $n$ people, each of whom has their birthday on some random day of the year. Suppose there are $m$ days in the year, and let us pretend that this is some parameter. 
+
+\begin{parts}
+\part[10] What is the expected {\em number of pairs} $(i, j)$ with $i < j$ such that person $i$ and person $j$ have the same birthday? For what value of $n$ (as a function of $m$) does this number become $1$?
+
+\mysolution{\input{3a-sol}}
+
+\part[15] This idea has some nice applications in CS, one of which is in estimating the ``support'' of a distribution. Suppose we have a radio station that claims to have a library of one million songs, and suppose that the radio station plays these songs by picking at each step a uniformly random song from its library (with replacement), playing it, then picking the next song, and so on.
+
+A listener who started listening when the station began, noticed that the first 400 songs were distinct, and then a song played earlier played again (i.e., the 401$^\text{st}$ song was a repetition). Prove that with probability $> 85\%$, the station's claim of having a million song library is \textbf{false}.\\
+
+\mysolution{\input{3b-sol}}
+\end{parts}
+\newpage
+\titledquestion{Investment Analysis}
+
+A computer science student opens a Roth IRA retirement account at age 20. The student takes a side job and invests \$7,000 at the start of each year in the account.
+Not knowing how finances work, the student picks a standard investment fund that follows the S\&P500. Based on the historical data, the rate of return in the $i^\text{th}$ year $r_i$ is a uniformly random percentage that ranges between 9.5\% and  14.1\%, i.e., $r_i \sim \text{Uniform}(9.5, 14.1)$.
+Answer each of the following questions by showing in detail how you arrive to the result.
+
+[\textit{Hint}: You may use the fact that for independent random variables $A$ and $B$, $\mathbb{E}[AB] = \mathbb{E}[A] \cdot \mathbb{E}[B]$.]
+
+\begin{parts}
+\part[5] Assuming an early retirement at the age of 57, express the amount of money $M$ the student has in the account. Note that this corresponds to 37 years in terms of the random variables $r_1, r_2, \ldots, r_{37}$.
+
+\mysolution{\input{4a-sol}}
+
+\part[10] Find the expected amount in the account at the end of 37 years, i.e. $\ex[M]$.
+
+\mysolution{\input{4b-sol}}
+
+\part[5]
+Let $\sigma^2 = \text{Var}(r_i)$ be the variance of the rate of return, and $\mu = \ex[r_i]$ be its expected value. Give an upper bound on the probability that $r_i \ge \mu + 2\sigma$.
+
+\mysolution{\input{4c-sol}}
+
+\part[0] Ungraded general knowledge:
+What percentage of the money invested will be lost in taxes when money will be withdrawn from the Roth IRA account? 
+\mysolution{\input{4d-sol}}
+\end{parts}
+
+\titledquestion{Checking feasibility vs optimization}[20]
+Some of the algorithms for linear programming (e.g. simplex) start off with one of the corner points of the feasible set.  This turns out to be tricky in general. In this problem, we will see that {\bf in general}, finding one feasible point is as difficult as actually performing the optimization! 
+
+Consider the following linear program (in $n$ variables $x_1, \dots, x_n$, represented by the vector $x$):
+\begin{align*}
+\text{minimize } &c^T x ~~\text{subject to} \\
+a_1^T x &\ge b_1 \\
+a_2^T x &\ge b_2 \\
+&\cdots \\
+a_m^T x &\ge b_m.
+\end{align*}
+Suppose you know that the optimum value (i.e. the minimum of $c^T x$ over the feasible set) lies in the interval $[-M, M]$ for some real number $M$ (this is typically possible in practice).  Suppose also that you have an {\bf oracle} that can take any linear program and say whether it is feasible or not.  Prove that using $O(\log (M/\epsilon))$ calls to the oracle, one can determine the optimum value of the LP above up to an error of $\pm \epsilon$, for any given accuracy $\epsilon > 0$.  [\emph{Hint: } can you write a new LP that is feasible only if the LP above has optimum value $\le z$, for some $z$?]
+\mysolution{\input{Lp_binary search}}
+
+\titledquestion{Minimum vertex cover revisited}[20]
+Recall the street surveillance problem that we saw in HW 2. We are given an undirected graph $G = (V,E)$ and the goal is to select a subset $S$ of the vertices of the smallest possible size that can ``monitor'' all the edges, i.e., for every edge $\{i,j\} \in E$, at least one of $i,j$ is in $S$ (so the objective is to minimize $|S|$ subject to the above).
+
+We studied the linear programming (LP) relaxation for vertex cover. Recall that it is as follows:
+\begin{align*}
+\text{minimize } \sum_{u \in V} &x_u \text{ subject to} \\
+0 \le x_u &\le 1 \text{ for all $u\in V$} \\
+x_u + x_v &\ge 1 \text{ for all $\{u,v\} \in E$.}
+\end{align*}
+In class, we saw a rounding algorithm that takes a feasible solution $\{x_u\}$ to the LP above and produces a {\bf feasible, binary} solution whose objective value is at most $2 \sum_u x_u$.  Now, suppose we were lucky and the LP solution had all the $x_u$ satisfying $x_u \in [0,0.2) \cup (0.8, 1]$. In this case, prove that rounding produces a feasible, binary solution whose cost is at most $(1.25) \sum_u x_u$.
+
+\mysolution{\input{6c-sol}}
+\end{questions}
+\end{document}
