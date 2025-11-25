@@ -151,11 +151,106 @@ Suppose we have $n$ people, each of whom has their birthday on some random day o
 \begin{parts}
 \part[10] What is the expected {\em number of pairs} $(i, j)$ with $i < j$ such that person $i$ and person $j$ have the same birthday? For what value of $n$ (as a function of $m$) does this number become $1$?
 
+\textbf{Define $X_{i,j}$ s.t. $X_{i,j} = 1$ if person $i$ and person $j$ share a birthday and $0$ otherwise.}
+
+\textbf{Define $X$ to be the total number of pairs with matching birthdays}
+
+\begin{align*}
+  X = \sum_{i < j}{X_{i,j}}
+\end{align*}
+
+\textbf{Next we will use linearity of expectation which works even if the random variables aren't indepdendent.}
+
+\begin{align*}
+  E[X] = \sum_{i < j}{E[X_{i,j}]}
+\end{align*}
+
+\textbf{Lets find $E[X_{i,j}]$}
+
+\begin{align*}
+  E[X_{i,j}] &= 1 * Pr[\text{i,j same birthday}] + 0 * Pr[\text{i,j not same birthday}] \\
+  E[X_{i,j}] &= 1 * Pr[\text{i,j same birthday}] 
+\end{align*}
+
+\textbf{To find this probability start by picking $i$'s birthday. This Date can be any date so the probability of that being successful is $1$ and then give the probability that $j$'s birthday is this specific value.}
+
+\begin{align*}
+  &Pr[\text{i,j same brithday}] = 1 * \frac{1}{m} \\
+  &E[X_{i,j}] = \frac{1}{m}
+\end{align*}
+
+\textbf{The summation happens over all pairs $i < j$ so lets count the number of pairs}
+\begin{align*}
+  E[X] = \sum_{i < j}{E[X_{i,j}]} = \sum_i^n \sum_{j = i + 1}^n E[X_{i,j}]
+\end{align*}
+
+\textbf{Say $i=1$ when this happens $j$ can take on values $(2,n)$ or $n-1$ values. When $i=2$ then $j$ can take on values $(3,n)$ or $n-2$ values. If $i = n-1$ then exactly one pair can be made. If $i=n$ no pairs can be made. If we are trying to count the number of possible pairs such that $i < j$ it can represented by the arithmetic sequence below}
+
+\[
+  (n-1) + (n-2) + ... + 1
+\]
+
+\textbf{This is an arithmetic series}
+
+\begin{align*}
+  S_{n - 1} &= \frac{n}{2}[2a + ((n-1)-1)d] \\
+  S_{n - 1} &= \frac{n}{2}[2 * 1 + ((n-1)-1-1)1] \\
+  S_{n - 1} &= \frac{n}{2}[2 + (n-3)] \\
+  S_{n - 1} &= \frac{n}{2}[n-1] \\
+  S_{n - 1} &= \frac{n * (n-1)}{2}
+\end{align*}
+
+\textbf{So there are $S_{n-1}$ terms. Using that information we can solve our $E[X_{i,j}]$}
+
+\begin{align*}
+  E[X] &= \sum_{i < j}{E[X_{i,j}]} = \sum_i^n \sum_{j = i + 1}^n E[X_{i,j}] = \frac{n(n-1)}{2}\frac{1}{m} \\
+  E[X] &= \frac{n^2 - n}{2} * \frac{1}{m} \\
+  E[X] &= \frac{n^2 - n}{2m}
+\end{align*}
+
+\textbf{Solve for the value of $n$ that makes the equation 1}
+
+\begin{align*}
+  n^2 - n = 2m \\
+  n^2 - n - 2m = 0
+\end{align*}
+
+\textbf{Use the quadratic formula}
+
+\begin{align*}
+  n &= \frac{-b \pm \sqrt{b^2 - 4ac}}{2a} \\
+  n &= \frac{1 \pm \sqrt{1 - 4*-2m}}{2} \\
+  n &= \frac{1 \pm \sqrt{1 + 8m}}{2}
+\end{align*}
+
 \mysolution{\input{3a-sol}}
 
 \part[15] This idea has some nice applications in CS, one of which is in estimating the ``support'' of a distribution. Suppose we have a radio station that claims to have a library of one million songs, and suppose that the radio station plays these songs by picking at each step a uniformly random song from its library (with replacement), playing it, then picking the next song, and so on.
 
 A listener who started listening when the station began, noticed that the first 400 songs were distinct, and then a song played earlier played again (i.e., the 401$^\text{st}$ song was a repetition). Prove that with probability $> 85\%$, the station's claim of having a million song library is \textbf{false}.\\
+
+\textbf{This problem can be mapped to the problem above. Let $n$ be the number of songs that have been played and let $m$ be the total number of songs there are. Define $X_{i,j} = 1$ if song $i$ and song $j$ are the same song. Using this we can define the number of song pairs that are the same song.}
+
+\begin{align*}
+  X &= \sum_{i < j} X_{i,j} \\
+  E[X] &= \frac{n^2 - n}{2m}
+\end{align*}
+
+\textbf{From the problem statement we can assume that $n = 401$ and that $m=10^6$. We can plug these values in.}
+
+\begin{align*}
+E[X] &= \frac{401^2 - 401}{2 * 10^6} \\
+E[X] &= \frac{160400}{2000000} \\
+E[X] &= 0.0802
+\end{align*}
+
+\textbf{We can use Markov. We want to find the probability that $X > a$. This means that there was at least one repeat song so far.}
+\begin{align*}
+  P(X \ge a) \le \frac{E[X]}{a} \\
+  P(X \ge 1) \le 0.0802
+\end{align*}
+
+\textbf{If the station had a million songs the probability that the listener heard a repeat song after $401$ songs would be $0.0802$. Therefore because we saw a repeat we have confidence of at least $1-0.0802 \rightarrow 0.9198 > 0.85$ that the song claim is false}
 
 \mysolution{\input{3b-sol}}
 \end{parts}
@@ -171,14 +266,93 @@ Answer each of the following questions by showing in detail how you arrive to th
 \begin{parts}
 \part[5] Assuming an early retirement at the age of 57, express the amount of money $M$ the student has in the account. Note that this corresponds to 37 years in terms of the random variables $r_1, r_2, \ldots, r_{37}$.
 
+\textbf{Define $M_i$ to be the amount of money (captial) in the account at the end of year $i$}
+
+\textbf{Move the decimal over for each $r_i$ two times to get a decimal percentage}
+\begin{align*}
+M_i &= ((M_{i-1} + 7000) (1+r_i)) \\
+M_{37} &= ((M_{36} + 7000)) * M_{37}
+\end{align*}
+
+\textbf{Lets now use plug and chug on the reccurence to see if we can find a pattern}
+
+\begin{align*}
+M_1 &= ((M_{0} + 7000) (1+r_1)) \rightarrow (7000) (1+r_1) \\
+M_2 &= ((M_{1} + 7000) (1+r_2)) \rightarrow (7000 (1+r_1) + 7000) * (1+r_2) \\
+M_3 &= ((M_{2} + 7000) (1+r_3)) \rightarrow \\
+&= ((7000 (1+r_1) + 7000) * (1+r_2) + 7000) (1+r_3)
+\end{align*}
+
+\textbf{Notice that the deposit in year $1$ is multiplied by $(1 + r_1)(1 + r_2)(...)(1+r_{37})$}
+
+\textbf{Notice that the deposit in year $2$ is multiplied by $(1 + r_2)(...)(1+r_{37})$}
+
+\begin{align*}
+  M_{37} = \sum_{i=1}^{37} 7000 \prod_{j=i}^{37}(1+r_j)
+  M_{37} = M
+\end{align*}
+
 \mysolution{\input{4a-sol}}
 
 \part[10] Find the expected amount in the account at the end of 37 years, i.e. $\ex[M]$.
+\begin{align*}
+  E[M] &= \sum_{i=1}^{37} E[7000 \prod_{j=i}^{37}(1+r_j)] \\
+  E[M] &= \sum_{i=1}^{37} 7000 E[\prod_{j=i}^{37}(1+r_j)] \\
+\end{align*}
+
+\textbf{We can abuse the fact that all $r_i$ values are i.i.d}
+
+\begin{align*}
+  E[M] &= \sum_{i=1}^{37} 7000 \prod_{j=i}^{37}E[(1+r_j)] \\
+  E[M] &= \sum_{i=1}^{37} 7000 \prod_{j=i}^{37}(E[1]+E[r_j]) \\
+\end{align*}
+
+
+\begin{align*}
+  E[M] &= \sum_{i=1}^{37} 7000 \prod_{j=i}^{37}(1+E[r_j]) \\
+  E[M] &= \sum_{i=1}^{37} 7000 (1+E[r])^{37 - i + 1} \\
+\end{align*}
+
+\textbf{The expected value of a continuous normal distribution is defined by the min$ (a)$ and max $(b)$ values of our uniform distribution}
+
+\begin{align*}
+  E[X] &= \frac{a+b}{2} \\
+  E[r] &= \frac{0.095 + 0.141}{2} \\
+  E[r] &= 0.118
+\end{align*}
+
+\textbf{Pulling everything together}
+\begin{align*}
+  E[M] = \sum_{i=1}^{37} 7000 (1+0.6247)^{37 - i + 1} \\
+  E[M] = 4,045,218.42
+\end{align*}
+
+
 
 \mysolution{\input{4b-sol}}
 
 \part[5]
 Let $\sigma^2 = \text{Var}(r_i)$ be the variance of the rate of return, and $\mu = \ex[r_i]$ be its expected value. Give an upper bound on the probability that $r_i \ge \mu + 2\sigma$.
+
+\textbf{We will use Chebyshev's Innequality}
+\textbf{Let $X$ be the random variable that represents the rate of return}
+\begin{align*}
+  &Pr[|X-\mu| \ge k \sigma] \le \frac{1}{k^2} \\
+\end{align*}
+
+\textbf{Using the innequality we are given for $r_i$ and some algebra gives us the solution}
+
+\begin{align*}
+  r_i &\ge \mu + 2 \sigma \\
+  |r_i - \mu| &\ge 2 \sigma 
+\end{align*}
+\textbf{Now plug into Chebyshev}
+
+\begin{align*}
+  &Pr[|X-\mu| \ge k \sigma] \le \frac{1}{k^2} \\
+  &Pr[|r_i-\mu| \ge 2 \sigma] \le \frac{1}{2^2} \\
+  &Pr[|r_i-\mu| \ge 2 \sigma] \le \frac{1}{4} \\
+\end{align*}
 
 \mysolution{\input{4c-sol}}
 
