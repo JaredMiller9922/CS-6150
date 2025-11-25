@@ -270,8 +270,8 @@ Answer each of the following questions by showing in detail how you arrive to th
 
 \textbf{Move the decimal over for each $r_i$ two times to get a decimal percentage}
 \begin{align*}
-M_i &= ((M_{i-1} + 7000) (1+r_i)) \\
-M_{37} &= ((M_{36} + 7000)) * M_{37}
+M_i &= (M_{i-1} + 7000) (1+r_i)\\
+M_{37} &= (M_{36} + 7000) * (1 + r_{37})
 \end{align*}
 
 \textbf{Lets now use plug and chug on the reccurence to see if we can find a pattern}
@@ -288,8 +288,8 @@ M_3 &= ((M_{2} + 7000) (1+r_3)) \rightarrow \\
 \textbf{Notice that the deposit in year $2$ is multiplied by $(1 + r_2)(...)(1+r_{37})$}
 
 \begin{align*}
-  M_{37} = \sum_{i=1}^{37} 7000 \prod_{j=i}^{37}(1+r_j)
-  M_{37} = M
+  M_{37} &= \sum_{i=1}^{37} 7000 \prod_{j=i}^{37}(1+r_j) \\
+  M_{37} &= M
 \end{align*}
 
 \mysolution{\input{4a-sol}}
@@ -338,20 +338,23 @@ Let $\sigma^2 = \text{Var}(r_i)$ be the variance of the rate of return, and $\mu
 \textbf{Let $X$ be the random variable that represents the rate of return}
 \begin{align*}
   &Pr[|X-\mu| \ge k \sigma] \le \frac{1}{k^2} \\
-\end{align*}
-
-\textbf{Using the innequality we are given for $r_i$ and some algebra gives us the solution}
-
-\begin{align*}
-  r_i &\ge \mu + 2 \sigma \\
-  |r_i - \mu| &\ge 2 \sigma 
-\end{align*}
-\textbf{Now plug into Chebyshev}
-
-\begin{align*}
-  &Pr[|X-\mu| \ge k \sigma] \le \frac{1}{k^2} \\
-  &Pr[|r_i-\mu| \ge 2 \sigma] \le \frac{1}{2^2} \\
   &Pr[|r_i-\mu| \ge 2 \sigma] \le \frac{1}{4} \\
+\end{align*}
+
+\textbf{Chebyshev says that the probability that a random variable $X$ is at least $k$ standard deviations away from the expected value is $\le \frac{1}{k^2}$}
+
+\begin{align*}
+  &Pr[r_i \ge \mu + 2 \sigma] \\
+  &Pr[r_i - \mu \ge 2 \sigma]
+\end{align*}
+
+\textbf{Here we notice that the problem is only asking for the probability that the random variable is 2 standard deviations GREATER than the random variable and regular Chebyshev tells us the probability that the random variable is 2 standard deviations greater and smaller.}
+
+\textbf{We are told that the distribution that the random variable comes from is a uniform distribution. This means that values are symmetric around the expected value. This means that we can simply divide the value given by Chebyshev $2$ to get the correct probability.}
+
+\begin{align*}
+  &Pr[r_i - \mu \ge 2 \sigma] \le \frac{1}{4} / 2 \\
+  &Pr[r_i \ge \mu + 2 \sigma] \le \frac{1}{8}
 \end{align*}
 
 \mysolution{\input{4c-sol}}
@@ -373,6 +376,63 @@ a_2^T x &\ge b_2 \\
 a_m^T x &\ge b_m.
 \end{align*}
 Suppose you know that the optimum value (i.e. the minimum of $c^T x$ over the feasible set) lies in the interval $[-M, M]$ for some real number $M$ (this is typically possible in practice).  Suppose also that you have an {\bf oracle} that can take any linear program and say whether it is feasible or not.  Prove that using $O(\log (M/\epsilon))$ calls to the oracle, one can determine the optimum value of the LP above up to an error of $\pm \epsilon$, for any given accuracy $\epsilon > 0$.  [\emph{Hint: } can you write a new LP that is feasible only if the LP above has optimum value $\le z$, for some $z$?]
+
+\textbf{Start by defining a function $O$. This function returns true if the linear program passed in is feasible and false otherwise.}
+
+\textbf{The hint asks if we can write a new LP that is feasible only if the LP above has optimum value $\le z$ for some $z$. To do this simply add a new constraint the problem}
+\[
+  c^Tx \le z
+\]
+\textbf{Define the linear program that contains all the constraints above and the one we just defined to be $LP'$}
+
+\textbf{Next we want to figure out a way to ensure the number of calls to the oracle is $O(log(\frac{M}{\epsilon}))$}
+
+\textbf{Because we know that the optimum value is in the interval $[-M, M]$ we can utilize binary search to get the bound we want.}
+
+\begin{algorithm}
+\caption{Linear Program Binary Search}\label{alg:cap}
+\begin{algorithmic}
+\State $l \gets -M$
+\State $h \gets M$
+\While{$h - l \le 2\epsilon$}
+\State $z \gets \frac{l + h}{2}$
+\State $\text{res} \gets O(LP')$
+\If{$\text{res}$ is true}
+    \State $h \gets z$
+\ElsIf{$\text{res}$ is false}
+    \State $l \gets z$
+\EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Once this algorithm completes any value in the interval $[l,h]$ is a valid solution to the problem}
+
+\textbf{Correctness: We saw in class that binary search is correct. The reasoning comes from the fact that we are always shrinking our interval without ever exlcuding the correct answer to the query.}
+
+\textbf{Runtime Analysis}
+\textbf{The algorithm starts with an interval length of $2M$ (This is simply $h-l$). We know from class that at every step binary search cuts the search space in half. This means that after $k$ iterations the length of the interval can be defined as follows.}
+\begin{align*}
+  h - l = \frac{2M}{2^k}
+\end{align*}
+\textbf{The problem asks us to be accuract within $\pm \epsilon$ which means that when our algorithm finishes our interval should be of size}
+\begin{align*}
+  h - l \le 2\epsilon
+\end{align*}
+\textbf{We know the size of our interval after $k$ iterations so we can plug that value in and solve for $k$}
+
+\begin{align*}
+  h - l &\le 2\epsilon \\
+  \frac{2M}{2^k} &\le 2\epsilon \\
+  \frac{M}{2^k} &\le \epsilon \\
+  M &\le \epsilon * 2^k \\
+  \frac{M}{\epsilon} &\le 2^k \\
+  log_2(\frac{M}{\epsilon}) &\le k\log_2{2} \\
+  log_2(\frac{M}{\epsilon}) &\le k \\
+\end{align*}
+
+\textbf{Therefore after $log_2(\frac{M}{\epsilon})$ iterations the size of our interval is $2\epsilon$ which is what the problem asked us to show.}
+
 \mysolution{\input{Lp_binary search}}
 
 \titledquestion{Minimum vertex cover revisited}[20]
@@ -386,6 +446,25 @@ x_u + x_v &\ge 1 \text{ for all $\{u,v\} \in E$.}
 \end{align*}
 In class, we saw a rounding algorithm that takes a feasible solution $\{x_u\}$ to the LP above and produces a {\bf feasible, binary} solution whose objective value is at most $2 \sum_u x_u$.  Now, suppose we were lucky and the LP solution had all the $x_u$ satisfying $x_u \in [0,0.2) \cup (0.8, 1]$. In this case, prove that rounding produces a feasible, binary solution whose cost is at most $(1.25) \sum_u x_u$.
 
+\textbf{Let $X = x_1 + x_2 + ... + x_n$ represent the optimal solution.}
+
+\textbf{Let $Y = y_1 + y_2 + ... + y_n$ represent the rounded solution.}
+
+\textbf{Because of the interval given $y_u = 1 \iff x_u \ge 0.8$}
+
+\textbf{Consider the lowest value of $X$ that can be cause $y_u = 1$. This value is $0.81$. This gives the innequality $y_u < 1.25 * x_u$}
+
+\textbf{The objective for the optimal solution can be represented as $\min \sum{x_u}$}
+
+\textbf{The objective for the rounded solution can be represented as $\min \sum{y_u}$}
+
+\textbf{Expanding out the rounded solution and plugging in the innequality between $y_u$ and $x_u$ derived above}
+
+\begin{align*}
+y_1 + y_2 + ... + y_n < 1.25 x_1 + 1.25 x_2 + ... + 1.25 x_n \\
+y_1 + y_2 + ... + y_n < 1.25 (x_1 + x_2 + ... + x_n) \\
+\min \sum_u{y_u} < 1.25 \sum_u{x_u}
+\end{align*}
 \mysolution{\input{6c-sol}}
 \end{questions}
 \end{document}
