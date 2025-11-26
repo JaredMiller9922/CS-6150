@@ -50,11 +50,6 @@ There are many ways to do this analysis; let us see one of them. We would like t
 \ex[X] = \ex[T_k]
 \]
 
-\textbf{The law of conditional expectations states that}
-\[
-\ex[X] = \ex[\ex[X | Y]] \rightarrow \ex[T_k] = \ex[\ex[T_k | Y]]
-\]
-
 \textbf{Define $Y$ to be a random variable where}
 \begin{align*}
 Y &= 1 \text{ If the box purchased gives a unique sticker} \\
@@ -107,7 +102,7 @@ B(0) &= \frac{n}{n} + B(1) \\
 \begin{align*}
 B(0) &= n (\frac{1}{n} + \frac{1}{n-1} + \frac{1}{n-2} + ... + 1) \\
 B(0) &= n (1 + \frac{1}{2} + \frac{1}{3} + ... + \frac{1}{n}) \\
-B(0) &= n (\ln{n} + c \text{, } c \in (0,1))
+B(0) &= n (\ln{n} + c) \text{, } c \in (0,1)
 \end{align*}
 
 \mysolution{\input{1b-sol}}
@@ -119,14 +114,14 @@ B(0) &= n (\ln{n} + c \text{, } c \in (0,1))
 \Pr&[B(t) \ge 8nln(n)] \le \frac{\ex[X]}{8nln(n)} \\
 \Pr&[B(t) \ge 8nln(n)] \le \frac{n(ln(n) + c)}{8nln(n)} \\
 \Pr&[B(t) \ge 8nln(n)] \le \frac{ln(n) + c}{8ln(n)} \\
-\Pr&[B(t) \ge 8nln(n)] \le \frac{ln(n) + c}{8ln(n)} \le 0.25 \\
+\Pr&[B(t) \ge 8nln(n)] \le \frac{ln(n) + c}{8ln(n)} \overset{?}{\le} 0.25 \\
 \end{align*}
 
 \textbf{Lets simplify this further}
 \begin{align*}
-\frac{ln(n) + c}{8ln(n)} &\le 0.25 \\
-ln(n) + c &\le {0.25 * 8ln(n)} \\
-ln(n) + c &\le {2ln(n)} \iff c \le ln(n)\\
+\frac{ln(n) + c}{8ln(n)} &\overset{?}{\le} 0.25 \\
+ln(n) + c &\overset{?}{\le} {0.25 * 8ln(n)} \\
+ln(n) + c &\overset{?}{\le} {2ln(n)} \iff c \le ln(n)\\
 \end{align*}
 
 \textbf{We know $c \in (0,1)$ and $n \ge 3$}
