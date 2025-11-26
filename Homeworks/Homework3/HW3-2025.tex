@@ -441,13 +441,15 @@ x_u + x_v &\ge 1 \text{ for all $\{u,v\} \in E$.}
 \end{align*}
 In class, we saw a rounding algorithm that takes a feasible solution $\{x_u\}$ to the LP above and produces a {\bf feasible, binary} solution whose objective value is at most $2 \sum_u x_u$.  Now, suppose we were lucky and the LP solution had all the $x_u$ satisfying $x_u \in [0,0.2) \cup (0.8, 1]$. In this case, prove that rounding produces a feasible, binary solution whose cost is at most $(1.25) \sum_u x_u$.
 
+\textbf{We first start by defining our rouding criteria. If $x_u > 0.8, y_u = 1$. Otherwise $y_u = 0$}
+
 \textbf{Let $X = x_1 + x_2 + ... + x_n$ represent the optimal solution.}
 
 \textbf{Let $Y = y_1 + y_2 + ... + y_n$ represent the rounded solution.}
 
-\textbf{Because of the interval given $y_u = 1 \iff x_u \ge 0.8$}
+\textbf{Because of the interval given $y_u = 1 \iff x_u > 0.8$}
 
-\textbf{Consider the lowest value of $X$ that can be cause $y_u = 1$. This value is $0.81$. This gives the innequality $y_u < 1.25 * x_u$}
+\textbf{Consider the lowest value of $X$ that can be cause $y_u = 1$. This value is $ > 0.80$. This gives the innequality $y_u < 1.25 * x_u$}
 
 \textbf{The objective for the optimal solution can be represented as $\min \sum{x_u}$}
 
@@ -458,7 +460,7 @@ In class, we saw a rounding algorithm that takes a feasible solution $\{x_u\}$ t
 \begin{align*}
 y_1 + y_2 + ... + y_n < 1.25 x_1 + 1.25 x_2 + ... + 1.25 x_n \\
 y_1 + y_2 + ... + y_n < 1.25 (x_1 + x_2 + ... + x_n) \\
-\min \sum_u{y_u} < 1.25 \sum_u{x_u}
+\sum_u{y_u} < 1.25 \sum_u{x_u}
 \end{align*}
 \mysolution{\input{6c-sol}}
 \end{questions}

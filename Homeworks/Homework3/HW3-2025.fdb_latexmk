@@ -1,8 +1,8 @@
 # Fdb version 4
-["pdflatex"] 1764177162.97631 "/home/jared/Desktop/Fall2025/CS-6150/Homeworks/Homework3/HW3-2025.tex" "HW3-2025.pdf" "HW3-2025" 1764177163.48235 0
+["pdflatex"] 1764180272.96745 "/home/jared/Desktop/Fall2025/CS-6150/Homeworks/Homework3/HW3-2025.tex" "HW3-2025.pdf" "HW3-2025" 1764180273.47839 0
   "/etc/texmf/web2c/texmf.cnf" 1755629903.52858 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/jared/.texlive2023/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk" 1764093983.51864 11524 a2925abd605ca729aca7d5c0e8d468cd ""
-  "/home/jared/Desktop/Fall2025/CS-6150/Homeworks/Homework3/HW3-2025.tex" 1764177162.72193 21109 3a0a05b4fd6541b32312e4b4b8717c78 ""
+  "/home/jared/Desktop/Fall2025/CS-6150/Homeworks/Homework3/HW3-2025.tex" 1764180272.71865 21209 3727f164e71432a383c77ede1b141cd4 ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -84,8 +84,8 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1755630509.99993 165012 f177baa1c39a3ebd62c3096a43521a0d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1755630517 6831199 b7de6592b6bfbbed1ba6c829e6c32696 ""
-  "HW3-2025.aux" 1764177163.4003 2708 4033e04ab2a1cab8222a9ea44a248c41 "pdflatex"
-  "HW3-2025.tex" 1764177162.72193 21109 3a0a05b4fd6541b32312e4b4b8717c78 ""
+  "HW3-2025.aux" 1764180273.39671 2708 4033e04ab2a1cab8222a9ea44a248c41 "pdflatex"
+  "HW3-2025.tex" 1764180272.71865 21209 3727f164e71432a383c77ede1b141cd4 ""
   (generated)
   "HW3-2025.aux"
   "HW3-2025.log"
